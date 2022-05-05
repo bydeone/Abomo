@@ -1,0 +1,388 @@
+{
+  "project_info": {
+    "project_number": "820125254929",
+    "firebase_url": "https://xpert-shop-default-rtdb.firebaseio.com",
+    "project_id": "xpert-shop",
+    "storage_bucket": "xpert-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:a2a2813c07d9557736b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.egservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:a16373b3c6efdef136b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xdico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:61604e1ff0644de036b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xfacture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:89c0450357cf6ae236b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xidentity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:7c6c3540f6aa160836b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xpertadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:1c8f3b670b99c0d136b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xpertimmo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:5afa7ac767f9812236b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xpertnote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:be7f4959d0e63de036b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xpertshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:f69914c7cf6b99fd36b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xperttontine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:7863bc5db327412136b8b0",
+        "android_client_info": {
+          "package_name": "cm.deone.corp.xvip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:5a3a21a038a8a42f36b8b0",
+        "android_client_info": {
+          "package_name": "com.deone.abomo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:c33b4306d16ef64836b8b0",
+        "android_client_info": {
+          "package_name": "com.deone.expertimmo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820125254929:android:15d8598e99c10ee136b8b0",
+        "android_client_info": {
+          "package_name": "com.deone.gustavosante"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RVUwKWVWxsAarOgYzVm-5WTe_vWUJKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820125254929-jib7epdipqk8liri7grc6i6dlq5bgavk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
