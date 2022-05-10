@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/rechercher"
+        android:icon="@drawable/ic_action_rechercher"
+        android:title="@string/rechercher"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/parametres"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/param_tres"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/apropos"
+        android:icon="@drawable/ic_action_infos"
+        android:title="@string/a_propos"
+        app:showAsAction="withText" />
+</menu>

@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="rouge_jour">#FF0000</color>
+    <color name="rouge_nuit">#490000</color>
+    <color name="app_back_jour">#8E3150</color>
+    <color name="app_back_nuit">#6A0125</color>
+    <color name="field_back_jour">#EDAAC1</color>
+    <color name="field_back_nuit">#817A7C</color>
+    <color name="field_border_jour">#001957</color>
+    <color name="field_border_nuit">#C8CBD3</color>
+    <color name="item_description_background_jour">#BBABCDEF</color>
+    <color name="item_description_background_nuit">#BB556575</color>
 </resources>

@@ -1,9 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/pageBackground"
     tools:context=".SignUpActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/lion" />
+
+    <LinearLayout
+        android:layout_below="@+id/ivAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tvSignature"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edtvNons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_person"
+            android:hint="@string/nom_complet"
+            android:inputType="text"
+            android:padding="20sp" />
+
+        <EditText
+            android:id="@+id/edtvTelephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_phone"
+            android:hint="@string/t_l_phone"
+            android:inputType="phone"
+            android:padding="20sp" />
+
+        <EditText
+            android:id="@+id/edtvUtilisateur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_login"
+            android:hint="@string/utilisateur"
+            android:inputType="text"
+            android:padding="20sp" />
+
+        <EditText
+            android:id="@+id/edtvMotdepasse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_lock"
+            android:hint="@string/mot_de_passe"
+            android:inputType="textPassword"
+            android:padding="20sp" />
+
+        <EditText
+            android:id="@+id/edtvConfmotdepasse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_lock"
+            android:hint="@string/conf_mot_de_passe"
+            android:inputType="textPassword"
+            android:padding="20sp" />
+
+        <Button
+            android:id="@+id/btSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/creer"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSignature"
+        android:text="@string/deone_studio"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

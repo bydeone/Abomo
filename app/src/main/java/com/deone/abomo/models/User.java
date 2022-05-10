@@ -1,5 +1,26 @@
 package com.deone.abomo.models;
 
+import static com.deone.abomo.outils.ConstantsTools.DATABASE;
+import static com.deone.abomo.outils.ConstantsTools.USERS;
+import static com.deone.abomo.outils.MethodTools.prepareUserData;
+import static com.deone.abomo.outils.MethodTools.showProgressDialog;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
+
+import com.deone.abomo.MainActivity;
+import com.deone.abomo.R;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.HashMap;
+
 public class User implements Comparable<User>{
     private String uid;
     private String unoms;
@@ -146,5 +167,70 @@ public class User implements Comparable<User>{
     @Override
     public int compareTo(User o) {
         return 0;
+    }
+
+    public void ajouterUser(Activity activity){
+        ProgressDialog progressDialog = showProgressDialog(
+                activity,
+                ""+activity.getString(R.string.app_name),
+                ""+activity.getString(R.string.save_user));
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        HashMap<String, String> hashMap = prepareUserData(
+                uid, ""+unoms, ""+ucover, ""+uavatar,
+                ""+utelephone, ""+uemail,""+ucni,
+                ""+udelivrance, ""+ucodepostal,
+                ""+uville,""+uadresse, ""+upays, timestamp
+        );
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
+        reference.child(USERS).child(uid).setValue(hashMap)
+                .addOnSuccessListener(unused -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(
+                            activity,
+                            ""+activity.getString(R.string.save_user_info_ok),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    activity.startActivity(new Intent(activity, MainActivity.class));
+                    activity.finish();
+                }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            Toast.makeText(
+                    activity,
+                    ""+e.getMessage(),
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
+    }
+
+    public void ajouterImage(Activity activity, Uri imageUri, String field){
+        String filePathAndName = "Users/"+"user_" + uid + "_" +  field + "_" + udate;
+        ProgressDialog progressDialog = showProgressDialog(
+                activity,
+                ""+activity.getString(R.string.app_name),
+                ""+activity.getString(R.string.add_image_message, filePathAndName));
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+        storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+            while (!uriTask.isSuccessful());
+
+            String downloadUri = uriTask.getResult().toString();
+            if (uriTask.isSuccessful()){
+                progressDialog.dismiss();
+                Toast.makeText(
+                        activity,
+                        ""+activity.getString(R.string.save_image_ok, filePathAndName),
+                        Toast.LENGTH_SHORT
+                ).show();
+                this.setUavatar(downloadUri);
+                this.ajouterUser(activity);
+            }else
+                progressDialog.dismiss();
+        }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            Toast.makeText(
+                    activity,
+                    ""+e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        });
     }
 }

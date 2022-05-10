@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?attr/pageBackground"
+    tools:context=".ShowPostActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/ivCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/lion"
+                    android:contentDescription="@string/post_cover" />
+
+                <LinearLayout
+                    android:id="@+id/llInfos"
+                    android:background="#abcdef"
+                    android:layout_alignParentBottom="true"
+                    android:padding="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvGallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="44"
+                        android:textColor="@color/black"
+                        app:drawableEndCompat="@drawable/ic_action_ungallery"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="44"
+                        android:textColor="@color/black"
+                        app:drawableEndCompat="@drawable/ic_action_uncomment"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvJaime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_unjaime"
+                        android:text="13"/>
+
+                    <TextView
+                        android:id="@+id/tvFavorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="44"
+                        android:textColor="@color/black"
+                        app:drawableEndCompat="@drawable/ic_action_unfavorite"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvPartage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_unpartage"
+                        android:text="13"/>
+
+                    <TextView
+                        android:id="@+id/tvSignalement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_unsignaler"
+                        android:text="13"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentInsetStart="72dp"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDetails"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description_immeuble" />
+
+            <TextView
+                android:id="@+id/tvGestion"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gestion"
+                app:drawableEndCompat="@drawable/ic_action_gestion" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGallery"
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvNotifications"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notifications"
+                app:drawableEndCompat="@drawable/ic_action_notification" />
+
+            <TextView
+                android:id="@+id/tvShowGallery"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/visibilit_de_la_gallerie"
+                app:drawableEndCompat="@drawable/ic_action_image" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvStatistiques"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/statistiques"
+                app:drawableEndCompat="@drawable/ic_action_stat" />
+
+            <TextView
+                android:id="@+id/tvSignaler"
+                style="@style/tv_settings_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/signaler_cette_publication"
+                app:drawableEndCompat="@drawable/ic_action_signaler" />
+
+            <TextView
+                android:id="@+id/tvSupprimer"
+                style="@style/tv_settings_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/supprimer_cette_publication"
+                app:drawableEndCompat="@drawable/ic_action_supprimer" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

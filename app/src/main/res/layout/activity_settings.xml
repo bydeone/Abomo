@@ -1,9 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?attr/pageBackground"
     tools:context=".SettingsActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/ivCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/lion" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignTop="@+id/llInfos"
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/lion"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+
+                <LinearLayout
+                    android:id="@+id/llInfos"
+                    android:background="#abcdef"
+                    android:layout_alignParentBottom="true"
+                    android:padding="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvNoms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="3dp"
+                        android:text="Patrick NKOA"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_action_person"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTelephone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="3dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_phone"
+                        android:text="+237 6 77 81 40 03"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentInsetStart="72dp"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swTheme"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Theme (Mode clair)" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swLanguage"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Langue (Français)" />
+
+            <TextView
+                android:id="@+id/tvSignout"
+                style="@style/tv_settings_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/deconnexion"
+                app:drawableEndCompat="@drawable/ic_action_signout" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
