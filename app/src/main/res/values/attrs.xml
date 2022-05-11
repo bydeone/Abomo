@@ -4,4 +4,5 @@
     <attr name="fieldBackground" format="reference" />
     <attr name="fieldBorderBackground" format="reference" />
     <attr name="tvBackground" format="reference" />
+    <attr name="showBackground" format="reference" />
 </resources>

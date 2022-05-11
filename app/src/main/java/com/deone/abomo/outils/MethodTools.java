@@ -1,6 +1,12 @@
 package com.deone.abomo.outils;
 
+import static android.content.Context.MODE_PRIVATE;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
+import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
+import static com.deone.abomo.outils.ConstantsTools.LIKES;
+import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 
 import android.Manifest;
@@ -11,10 +17,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.DateFormat;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -25,12 +36,60 @@ import com.deone.abomo.models.Post;
 import com.deone.abomo.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class MethodTools {
+    public static String customTitre(Context context, String titre, String description, String date, String nombredevues) {
+        return context.getString(R.string.custom_post_titre, titre,
+                description,
+                timestampToString(context,
+                        ""+FORMAT_DATE_FULL_FR,
+                        ""+date),
+                nombredevues);
+    }
+    public static String dataForActivity(Activity activity, String name) {
+        return activity.getIntent().getStringExtra(name);
+    }
+    public static void initAppPreferences(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
+        boolean isTheme = preferences.getBoolean("THEME", false);
+        if (isTheme){
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+        }
+        saveAppThemePreference(preferences, isTheme);
+        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
+        if (isLanguage){
+
+        }else {
+
+        }
+        saveAppLanguagePreference(preferences, isLanguage);
+    }
+
+    public static void loadSystemPreference(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
+        boolean isTheme = preferences.getBoolean("THEME", false);
+        if (isTheme){
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+        }
+        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
+        if (isLanguage){
+
+        }else {
+
+        }
+    }
     public static boolean isNightMode(Context context) {
         int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
@@ -229,5 +288,63 @@ public class MethodTools {
         }else {
             post.ajouterPost(activity);
         }
+    }
+
+    public static void supprimerUnPost(Activity activity, DatabaseReference reference, String pid) {
+        reference.child(POSTS).child(pid).removeValue().addOnSuccessListener(unused -> {
+            Toast.makeText(activity, ""+activity.getString(R.string.delete_success), Toast.LENGTH_SHORT).show();
+            activity.finish();
+        }).addOnFailureListener(e -> Toast.makeText(activity, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    public static boolean isProcess(Activity activity, TextView tvJaime, int res) {
+        Drawable[] draws = tvJaime.getCompoundDrawables();
+        //Left = 0 Top = 1 Right = 2 Bottom = 3
+        Drawable fDraw1 = draws[2];
+        Drawable fDraw2 = AppCompatResources.getDrawable(activity, res);
+        assert fDraw2 != null;
+        return fDraw1.getConstantState().equals(fDraw2.getConstantState());
+    }
+
+    public static void aimerUnPost(Activity activity, String uid, TextView tvJaime, DatabaseReference reference, String pid, String pnlikes) {
+        final DatabaseReference likesRef = reference.child(POSTS).child(pid).child(LIKES);
+        final DatabaseReference postsRef = reference.child(POSTS);
+
+        likesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isProcess(activity, tvJaime, R.drawable.ic_action_unjaime)){
+                    postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(pnlikes) + 1));
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("lid", uid);
+                    hashMap.put("ldate", timestamp);
+                    likesRef.child(uid).setValue(hashMap);
+                    tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_jaime, 0);
+                }else {
+                    postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(pnlikes) - 1));
+                    likesRef.child(uid).removeValue();
+                    tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unjaime, 0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(activity, ""+databaseError.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static void partagerUnPost(Activity activity, DatabaseReference reference, String pid, String pnshares) {
+
+    }
+
+    public static void favoriteUnPost(Activity activity, DatabaseReference reference, String pid, String pnfavorites) {
+
+    }
+
+    public static void signalerUnPost(Activity activity, DatabaseReference reference, String pid, String pnsignales) {
+
     }
 }

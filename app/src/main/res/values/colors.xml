@@ -15,6 +15,6 @@
     <color name="field_back_nuit">#817A7C</color>
     <color name="field_border_jour">#001957</color>
     <color name="field_border_nuit">#C8CBD3</color>
-    <color name="item_description_background_jour">#BBABCDEF</color>
-    <color name="item_description_background_nuit">#BB556575</color>
+    <color name="item_description_background_jour">#99ABCDEF</color>
+    <color name="item_description_background_nuit">#99556575</color>
 </resources>

@@ -13,5 +13,6 @@ public class ConstantsTools {
     public static final String DATABASE = "Abomo";
     public static final String USERS = "Users";
     public static final String POSTS = "Posts";
+    public static final String LIKES = "Likes";
 
 }

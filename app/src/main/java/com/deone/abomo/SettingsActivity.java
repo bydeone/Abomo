@@ -4,6 +4,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.MethodTools.deconnecter;
+import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.saveAppLanguagePreference;
 import static com.deone.abomo.outils.MethodTools.saveAppThemePreference;
 
@@ -27,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    private SharedPreferences preferences;
     private DatabaseReference reference;
     private String uid;
     private String myuid;
@@ -40,29 +40,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference();
+        loadSystemPreference(this);
         setContentView(R.layout.activity_settings);
         checkuser();
-    }
-
-    private void loadSystemPreference() {
-        preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
-        boolean isTheme = preferences.getBoolean("THEME", false);
-        configureTheme(isTheme);
-        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
-        configureLanguage(isLanguage);
-    }
-
-    private void configureTheme(boolean isTheme) {
-        if (isTheme){
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-        }
-    }
-
-    private void configureLanguage(boolean isLanguage) {
-
     }
 
     private void checkuser() {
@@ -103,6 +83,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        SharedPreferences preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
         if (buttonView.getId() == R.id.swTheme){
             if (isChecked){
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);

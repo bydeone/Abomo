@@ -3,19 +3,23 @@ package com.deone.abomo;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.MethodTools.connecterUtilisateur;
+import static com.deone.abomo.outils.MethodTools.initAppPreferences;
 import static com.deone.abomo.outils.MethodTools.isNightMode;
 import static com.deone.abomo.outils.MethodTools.saveAppThemePreference;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,21 +28,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ImageView ivLogo;
     private EditText edtvUtilisateur;
     private EditText edtvMotdepasse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference();
+        initAppPreferences(this);
         setContentView(R.layout.activity_sign_in);
         checkuser();
-    }
-
-    @Override
-    protected void onResume() {
-        loadSystemPreference();
-        super.onResume();
     }
 
     private void loadSystemPreference() {
@@ -63,6 +62,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initviews() {
+        ivLogo = findViewById(R.id.ivLogo);
         edtvUtilisateur = findViewById(R.id.edtvUtilisateur);
         edtvMotdepasse = findViewById(R.id.edtvMotdepasse);
         findViewById(R.id.tvCreteAccoount).setOnClickListener(this);

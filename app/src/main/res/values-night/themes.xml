@@ -17,6 +17,7 @@
         <item name="fieldBackground">@color/field_back_nuit</item>
         <item name="fieldBorderBackground">@color/field_border_nuit</item>
         <item name="tvBackground">@color/field_back_nuit</item>
+        <item name="showBackground">@color/item_description_background_nuit</item>
     </style>
     <style name="tv_settings_one">
         <item name="android:background">?attr/tvBackground</item>

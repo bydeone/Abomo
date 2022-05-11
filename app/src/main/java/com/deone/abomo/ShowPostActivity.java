@@ -3,15 +3,26 @@ package com.deone.abomo;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
+import static com.deone.abomo.outils.MethodTools.aimerUnPost;
+import static com.deone.abomo.outils.MethodTools.customTitre;
+import static com.deone.abomo.outils.MethodTools.dataForActivity;
+import static com.deone.abomo.outils.MethodTools.deconnecter;
+import static com.deone.abomo.outils.MethodTools.favoriteUnPost;
+import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
+import static com.deone.abomo.outils.MethodTools.partagerUnPost;
+import static com.deone.abomo.outils.MethodTools.signalerUnPost;
+import static com.deone.abomo.outils.MethodTools.supprimerUnPost;
 import static com.deone.abomo.outils.MethodTools.timestampToString;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +49,10 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private String uid;
     private Post post;
     private Toolbar toolbar;
+    private ImageView ivAvatar;
     private ImageView ivCover;
+    private TextView tvNoms;
+    private TextView tvVues;
     private TextView tvGallery;
     private TextView tvComments;
     private TextView tvJaime;
@@ -52,14 +66,22 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvShowGallery;
     private RecyclerView rvComments;
     private TextView tvStatistiques;
+    private TextView tvNotes;
     private TextView tvSignaler;
     private TextView tvSupprimer;
+    private TextView tvComparaison;
+    private TextView tvEstimation;
     private final ValueEventListener valpost = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             for (DataSnapshot ds : snapshot.getChildren()){
                 post = ds.getValue(Post.class);
-                tvDetails.setText(HtmlCompat.fromHtml(customTitre(), 0));
+                assert post != null;
+                tvDetails.setText(HtmlCompat.fromHtml(customTitre(ShowPostActivity.this,
+                        ""+post.getPtitre(),
+                        ""+post.getPdescription(),
+                        ""+post.getPdate(),
+                        ""+post.getPnvues()), 0));
             }
         }
 
@@ -69,32 +91,20 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private String customTitre() {
-        return getString(R.string.custom_post_titre, post.getPtitre(),
-                post.getPdescription(),
-                timestampToString(ShowPostActivity.this,
-                        ""+FORMAT_DATE_FULL_FR, ""+post.getPdate()),
-                post.getPnvues());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference();
+        loadSystemPreference(this);
         setContentView(R.layout.activity_show_post);
         checkuser();
-    }
-
-    private void loadSystemPreference() {
-
     }
 
     private void checkuser() {
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fuser != null){
             myuid = fuser.getUid();
-            pid = checkpostid();
-            uid = checkpostuid();
+            pid = dataForActivity(this, "pid");
+            uid = dataForActivity(this, "uid");
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
             initviews();
         }else {
@@ -103,17 +113,12 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private String checkpostid() {
-        return getIntent().getStringExtra("pid");
-    }
-
-    private String checkpostuid() {
-        return getIntent().getStringExtra("uid");
-    }
-
     private void initviews() {
         toolbar = findViewById(R.id.toolbar);
+        ivAvatar = findViewById(R.id.ivAvatar);
         ivCover = findViewById(R.id.ivCover);
+        tvNoms = findViewById(R.id.tvNoms);
+        tvVues = findViewById(R.id.tvVues);
         tvGallery = findViewById(R.id.tvGallery);
         tvGallery.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
         tvComments = findViewById(R.id.tvComments);
@@ -145,6 +150,9 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         rvComments.setLayoutManager(layoutManagerComments);
         tvStatistiques = findViewById(R.id.tvStatistiques);
         tvStatistiques.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
+        tvComparaison = findViewById(R.id.tvComparaison);
+        tvEstimation = findViewById(R.id.tvEstimation);
+        tvNotes = findViewById(R.id.tvNotes);
         tvSignaler = findViewById(R.id.tvSignaler);
         tvSignaler.setVisibility(myuid.equals(uid)?View.GONE:View.VISIBLE);
         tvSupprimer = findViewById(R.id.tvSupprimer);
@@ -172,13 +180,13 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         }else if (v.getId() == R.id.tvComments){
 
         }else if (v.getId() == R.id.tvJaime){
-
+            aimerUnPost(this, myuid, tvJaime, reference, ""+pid, ""+post.getPnlikes());
         }else if (v.getId() == R.id.tvFavorite){
-
+            favoriteUnPost(this, reference, ""+pid, ""+post.getPnfavorites());
         }else if (v.getId() == R.id.tvPartage){
-
+            partagerUnPost(this, reference, ""+pid, ""+post.getPnshares());
         }else if (v.getId() == R.id.tvSignalement){
-
+            signalerUnPost(this, reference, ""+pid, ""+post.getPnsignales());
         }else if (v.getId() == R.id.tvGestion){
 
         }else if (v.getId() == R.id.tvNotifications){
@@ -190,7 +198,13 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         }else if (v.getId() == R.id.tvStatistiques){
 
         }else if (v.getId() == R.id.tvSupprimer){
-
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.app_name))
+                    .setMessage(getString(R.string.delete_post))
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes,
+                            (dialog, which) -> supprimerUnPost(this, reference, pid))
+                    .create().show();
         }
     }
 }

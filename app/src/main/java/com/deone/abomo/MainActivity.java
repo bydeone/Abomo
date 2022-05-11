@@ -2,6 +2,7 @@ package com.deone.abomo;
 
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
+import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference();
+        loadSystemPreference(this);
         setContentView(R.layout.activity_main);
         checkuser();
     }
@@ -168,10 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void loadSystemPreference() {
-
     }
 
     private void checkuser() {

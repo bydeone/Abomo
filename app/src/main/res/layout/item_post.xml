@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@color/item_description_background_jour"
+            android:background="?attr/showBackground"
             android:layout_alignBottom="@+id/ivCover"
             android:padding="10dp"
             android:layout_width="match_parent"

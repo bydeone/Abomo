@@ -1,7 +1,5 @@
 package com.deone.abomo;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_CAMERA_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_GALLERY_CODE;
@@ -9,15 +7,14 @@ import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.creerUnCompte;
-import static com.deone.abomo.outils.MethodTools.isNightMode;
+import static com.deone.abomo.outils.MethodTools.initAppPreferences;
+import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
-import static com.deone.abomo.outils.MethodTools.saveAppThemePreference;
 
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,7 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,34 +47,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference();
+        loadSystemPreference(this);
         setContentView(R.layout.activity_sign_up);
         checkuser();
-    }
-
-    @Override
-    protected void onResume() {
-        loadSystemPreference();
-        super.onResume();
-    }
-
-    private void loadSystemPreference() {
-        SharedPreferences preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
-        boolean isTheme = preferences.getBoolean("THEME", false);
-        if (isTheme){
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-            Toast.makeText(this, "DARK MODE", Toast.LENGTH_SHORT).show();
-        }else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-            Toast.makeText(this, "LIGTH MODE", Toast.LENGTH_SHORT).show();
-        }
-        saveAppThemePreference(preferences, isTheme);
-        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
-        if (isLanguage){
-
-        }else {
-
-        }
     }
 
     private void checkuser() {

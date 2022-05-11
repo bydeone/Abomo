@@ -35,14 +35,71 @@
                     android:src="@drawable/lion"
                     android:contentDescription="@string/post_cover" />
 
+                <RelativeLayout
+                    android:background="?attr/showBackground"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivAvatar"
+                        android:src="@drawable/lion"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/rlUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/tvVues"
+                        android:layout_toEndOf="@+id/ivAvatar"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp">
+
+                        <TextView
+                            android:id="@+id/tvNoms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/nom_utilisateur"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvVisitors"
+                            android:layout_below="@+id/tvNoms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="17 visiteurs - 14/20 - Sponsorisé"
+                            android:textColor="@color/black"
+                            android:textStyle="italic" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvVues"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="523 Vues"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/llInfos"
-                    android:background="#abcdef"
-                    android:layout_alignParentBottom="true"
-                    android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_alignParentBottom="true"
+                    android:background="?attr/showBackground"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
 
                     <TextView
                         android:id="@+id/tvGallery"
@@ -52,8 +109,8 @@
                         android:gravity="center"
                         android:text="44"
                         android:textColor="@color/black"
-                        app:drawableEndCompat="@drawable/ic_action_ungallery"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_ungallery" />
 
                     <TextView
                         android:id="@+id/tvComments"
@@ -63,8 +120,8 @@
                         android:gravity="center"
                         android:text="44"
                         android:textColor="@color/black"
-                        app:drawableEndCompat="@drawable/ic_action_uncomment"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_uncomment" />
 
                     <TextView
                         android:id="@+id/tvJaime"
@@ -72,10 +129,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:text="13"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_action_unjaime"
-                        android:text="13"/>
+                        app:drawableEndCompat="@drawable/ic_action_unjaime" />
 
                     <TextView
                         android:id="@+id/tvFavorite"
@@ -85,8 +142,8 @@
                         android:gravity="center"
                         android:text="44"
                         android:textColor="@color/black"
-                        app:drawableEndCompat="@drawable/ic_action_unfavorite"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_action_unfavorite" />
 
                     <TextView
                         android:id="@+id/tvPartage"
@@ -94,10 +151,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:text="13"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_action_unpartage"
-                        android:text="13"/>
+                        app:drawableEndCompat="@drawable/ic_action_unpartage" />
 
                     <TextView
                         android:id="@+id/tvSignalement"
@@ -105,10 +162,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:text="13"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_action_unsignaler"
-                        android:text="13"/>
+                        app:drawableEndCompat="@drawable/ic_action_unsignaler" />
 
                 </LinearLayout>
 
@@ -167,6 +224,24 @@
                 android:text="@string/notifications"
                 app:drawableEndCompat="@drawable/ic_action_notification" />
 
+
+            <TextView
+                android:id="@+id/tvComparaison"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comparer"
+                app:drawableEndCompat="@drawable/ic_action_notification" />
+
+
+            <TextView
+                android:id="@+id/tvEstimation"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/estimer"
+                app:drawableEndCompat="@drawable/ic_action_notification" />
+
             <TextView
                 android:id="@+id/tvShowGallery"
                 style="@style/tv_settings_one"
@@ -188,6 +263,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/statistiques"
                 app:drawableEndCompat="@drawable/ic_action_stat" />
+
+            <TextView
+                android:id="@+id/tvNotes"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Noter cette publication"
+                app:drawableEndCompat="@drawable/ic_action_note" />
 
             <TextView
                 android:id="@+id/tvSignaler"

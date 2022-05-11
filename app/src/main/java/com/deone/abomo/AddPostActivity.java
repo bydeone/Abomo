@@ -9,6 +9,7 @@ import static com.deone.abomo.outils.ConstantsTools.USERS;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.creerUnPost;
+import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
 
@@ -69,6 +70,7 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadSystemPreference(this);
         setContentView(R.layout.activity_add_post);
         checkuser();
     }

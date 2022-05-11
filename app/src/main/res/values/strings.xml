@@ -34,6 +34,7 @@
     <string name="param_tres">Paramètres</string>
     <string name="a_propos">A propos</string>
     <string name="sign_out">Voulez-vous quitter l\'application ?</string>
+    <string name="delete_post">Voulez-vous supprimer le post ?</string>
     <string name="deconnexion">Deconnexion</string>
     <string name="creer">CREER</string>
     <string name="ajouter_un_immeuble">Ajouter un post</string>
@@ -54,4 +55,8 @@
     <string name="gestion">Gestion</string>
     <string name="statistiques">Statistiques</string>
     <string name="custom_post_titre"><h3>%s</h3><p>%s<br />Publié le %s<br />%s Vues</p></string>
+    <string name="nom_utilisateur">Nom de l\'utilisateur</string>
+    <string name="delete_success">Suppression réussie</string>
+    <string name="comparer">Comparer</string>
+    <string name="estimer">Estimer</string>
 </resources>
