@@ -7,7 +7,6 @@ import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.creerUnCompte;
-import static com.deone.abomo.outils.MethodTools.initAppPreferences;
 import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
@@ -234,10 +233,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             ).show();
             return;
         }
-        if (confMotdepasse.equals(motdepasse)){
+        if (!confMotdepasse.equals(motdepasse)){
             Toast.makeText(
                     this,
-                    ""+getString(R.string.confMotdeposse_error),
+                    ""+getString(R.string.confMotdepasse_error),
                     Toast.LENGTH_SHORT
             ).show();
             return;

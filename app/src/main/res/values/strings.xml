@@ -16,7 +16,7 @@
     <string name="selectionner_une_image">Ou sélectionner une image ?</string>
     <string name="enable_camera_storage_permissions">Enable camera storage permissions</string>
     <string name="enable_storage_permissions">Enable storage permissions</string>
-    <string name="confMotdeposse_error">Les mots de passe ne correspondent pas!</string>
+    <string name="confMotdepasse_error">Les mots de passe ne correspondent pas!</string>
     <string name="motdepasse_error">Erreur lors de la saisie du mot de passe!</string>
     <string name="utilisateur_error">Erreur lors de la saisie de l\'utilsateur!</string>
     <string name="telephone_error">Erreur lors de la saisie du téléphone!</string>
@@ -34,6 +34,7 @@
     <string name="param_tres">Paramètres</string>
     <string name="a_propos">A propos</string>
     <string name="sign_out">Voulez-vous quitter l\'application ?</string>
+    <string name="del_post">Voulez-vous supprimer cette publication ?</string>
     <string name="delete_post">Voulez-vous supprimer le post ?</string>
     <string name="deconnexion">Deconnexion</string>
     <string name="creer">CREER</string>
@@ -54,9 +55,36 @@
     <string name="post_cover">Post cover</string>
     <string name="gestion">Gestion</string>
     <string name="statistiques">Statistiques</string>
-    <string name="custom_post_titre"><h3>%s</h3><p>%s<br />Publié le %s<br />%s Vues</p></string>
+    <string name="custom_post_titre">%s : %s (Publié le %s)</string>
     <string name="nom_utilisateur">Nom de l\'utilisateur</string>
     <string name="delete_success">Suppression réussie</string>
-    <string name="comparer">Comparer</string>
-    <string name="estimer">Estimer</string>
+    <string name="comparer">Comparer cette publication</string>
+    <string name="estimer">Estimer cette publication</string>
+    <string name="info_compte">Demander infos compte</string>
+    <string name="iam_xpert">Mode expert immo</string>
+    <string name="theme_mode">Theme (%s)</string>
+    <string name="mode_dark">Mode nuit</string>
+    <string name="mode_day">Mode jour</string>
+    <string name="nbre_vues">%s vues</string>
+    <string name="nbre_jaimes">%s j\'aimes</string>
+    <string name="nbre_commentaires">%s commentaires</string>
+    <string name="stop_load">Arreter le téléchargement</string>
+    <string name="publication">PUBLICATION</string>
+    <string name="maj_gallery">GALLERIE</string>
+    <string name="maj_commentaires">COMMENTAIRES</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="post_infos">Information de la publication</string>
+    <string name="send_comment">Envoyer votre commentaire</string>
+    <string name="votre_commentaire">Votre commentaire</string>
+    <string name="post_images">La gallérie de la publication</string>
+    <string name="post_comments">Les commentaires sur le publication</string>
+    <string name="notif_comment">Recevoir les notifications des commentaires</string>
+    <string name="delete_this_post">Supprimer cette publication</string>
+    <string name="signaler_this_post">Signaler cette publication</string>
+    <string name="show_gallery">Afficher la gallérie</string>
+    <string name="noter_post">Noter cette publication</string>
+    <string name="ajouter_image">Ajouter une image</string>
+    <string name="travaux_amenagements">Travaux d\'aménagement</string>
+    <string name="locataire">Locataire</string>
 </resources>

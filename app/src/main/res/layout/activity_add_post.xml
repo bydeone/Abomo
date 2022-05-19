@@ -10,21 +10,20 @@
     <ImageView
         android:id="@+id/ivCover"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="centerCrop"
+        android:layout_height="280dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/lion" />
 
     <LinearLayout
         android:layout_below="@+id/ivCover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_back_jour"
         android:layout_above="@+id/tvSignature"
         android:gravity="center"
         android:orientation="vertical">
@@ -51,8 +50,8 @@
             android:background="@drawable/redtv"
             android:gravity="top"
             android:hint="@string/description"
-            android:inputType="text"
-            android:minHeight="250dp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minHeight="210dp"
             android:padding="20sp" />
 
         <Button

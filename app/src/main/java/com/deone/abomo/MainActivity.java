@@ -10,11 +10,12 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,17 +47,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (DataSnapshot ds : snapshot.getChildren()){
                 Post post = ds.getValue(Post.class);
                 postList.add(post);
-                AdapterPost adapterPost = new AdapterPost(postList);
+                AdapterPost adapterPost = new AdapterPost(MainActivity.this, postList);
                 rvPosts.setAdapter(adapterPost);
                 adapterPost.setListener(new Alistener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        /*Intent intent = new Intent(HomeActivity.this, ShowPostActivity.class);
+                        Intent intent = new Intent(MainActivity.this, ShowPostActivity.class);
                         intent.putExtra("pid", postList.get(position).getPid());
                         intent.putExtra("uid", postList.get(position).getUid());
                         intent.putExtra("noms", postList.get(position).getUnoms());
                         intent.putExtra("avatar", postList.get(position).getUavatar());
-                        startActivity(intent);*/
+                        startActivity(intent);
                     }
 
                     @Override
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (post.getPtitre().toLowerCase().contains(mysearch.toLowerCase()) ||
                         post.getPdescription().toLowerCase().contains(mysearch.toLowerCase())){
                     postList.add(post);
-                    AdapterPost adapterPost = new AdapterPost(postList);
+                    AdapterPost adapterPost = new AdapterPost(MainActivity.this, postList);
                     rvPosts.setAdapter(adapterPost);
                     adapterPost.setListener(new Alistener() {
                         @Override
@@ -184,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initviews() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         rvPosts = findViewById(R.id.rvPosts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -56,9 +56,8 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             for (DataSnapshot ds : snapshot.getChildren()){
-                User user = ds.getValue(User.class);
+                user = ds.getValue(User.class);
             }
-
         }
 
         @Override

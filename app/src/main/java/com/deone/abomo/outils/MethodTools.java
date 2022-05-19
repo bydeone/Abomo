@@ -4,10 +4,14 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
+import static com.deone.abomo.outils.ConstantsTools.FAVORITES;
 import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
 import static com.deone.abomo.outils.ConstantsTools.LIKES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
+import static com.deone.abomo.outils.ConstantsTools.SHARES;
+import static com.deone.abomo.outils.ConstantsTools.SIGNALES;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
+import static com.deone.abomo.outils.ConstantsTools.USERS;
 
 import android.Manifest;
 import android.app.Activity;
@@ -44,15 +48,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MethodTools {
-    public static String customTitre(Context context, String titre, String description, String date, String nombredevues) {
+    public static String customTitre(Context context, String titre, String description, String date) {
         return context.getString(R.string.custom_post_titre, titre,
                 description,
                 timestampToString(context,
                         ""+FORMAT_DATE_FULL_FR,
-                        ""+date),
-                nombredevues);
+                        ""+date));
     }
     public static String dataForActivity(Activity activity, String name) {
         return activity.getIntent().getStringExtra(name);
@@ -297,54 +301,46 @@ public class MethodTools {
         }).addOnFailureListener(e -> Toast.makeText(activity, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    public static boolean isProcess(Activity activity, TextView tvJaime, int res) {
-        Drawable[] draws = tvJaime.getCompoundDrawables();
-        //Left = 0 Top = 1 Right = 2 Bottom = 3
-        Drawable fDraw1 = draws[2];
-        Drawable fDraw2 = AppCompatResources.getDrawable(activity, res);
-        assert fDraw2 != null;
-        return fDraw1.getConstantState().equals(fDraw2.getConstantState());
+    public static String formatDetailsPost(Activity activity, String titre, String description, String date) {
+        return "<h2>" +
+                titre +
+                "</h2>" +
+                "<p>" +
+                description +
+                "</p>" +
+                "<i>" +
+                formatHeureJourAn(date)+
+                "</i>";
     }
 
-    public static void aimerUnPost(Activity activity, String uid, TextView tvJaime, DatabaseReference reference, String pid, String pnlikes) {
-        final DatabaseReference likesRef = reference.child(POSTS).child(pid).child(LIKES);
-        final DatabaseReference postsRef = reference.child(POSTS);
+    public static String formatHeureJourAn(String date) {
+        long timestamp = System.currentTimeMillis() - Long.parseLong(date);
+        double seconde = timestamp * 0.001;
+        if (seconde <= 59){
+            return "à l'instant";
+        } else if (seconde/60 <= 59){
+            int result = (int) Math.ceil((seconde/60));
+            return "il y'a " + result + " minutes";
+        } else if (seconde/3600 <= 59){
+            int result = (int) Math.ceil((seconde/3600));
+            return "il y'a " + result + " heures";
+        } else if (seconde/86400 <= 23){
+            int result = (int) Math.ceil((seconde/86400));
+            return "Publié il y'a " + result + " jours";
+        } else if (seconde/2592000 <= 30){
+            int result = (int) Math.ceil((seconde/2592000));
+            return "il y'a " + result + " mois";
+        } else if (seconde/31104000 >= 12){
+            int result = (int) Math.ceil((seconde/31104000));
+            return "il y'a " + result + " ans";
+        }
 
-        likesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (isProcess(activity, tvJaime, R.drawable.ic_action_unjaime)){
-                    postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(pnlikes) + 1));
-                    String timestamp = String.valueOf(System.currentTimeMillis());
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("lid", uid);
-                    hashMap.put("ldate", timestamp);
-                    likesRef.child(uid).setValue(hashMap);
-                    tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_jaime, 0);
-                }else {
-                    postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(pnlikes) - 1));
-                    likesRef.child(uid).removeValue();
-                    tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unjaime, 0);
-                }
-            }
+        /*long seconds = TimeUnit.MILLISECONDS.toSeconds(timestamp);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(timestamp);
+        long hours = TimeUnit.MILLISECONDS.toHours(timestamp);
+        long days = TimeUnit.MILLISECONDS.toDays(timestamp);*/
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(activity, ""+databaseError.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        return null;
     }
 
-    public static void partagerUnPost(Activity activity, DatabaseReference reference, String pid, String pnshares) {
-
-    }
-
-    public static void favoriteUnPost(Activity activity, DatabaseReference reference, String pid, String pnfavorites) {
-
-    }
-
-    public static void signalerUnPost(Activity activity, DatabaseReference reference, String pid, String pnsignales) {
-
-    }
 }

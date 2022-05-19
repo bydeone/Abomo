@@ -8,23 +8,88 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:background="?attr/showBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivCover"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/lion"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:contentDescription="@string/couverture_de_l_immeuble" />
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/couverture_de_l_immeuble"
+            android:scaleType="centerCrop"
+            android:src="@drawable/lion" />
+
+        <RelativeLayout
+            android:id="@+id/llLoad"
+            android:layout_alignBottom="@+id/ivCover"
+            android:layout_marginBottom="2dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+            <ProgressBar
+                android:id="@+id/pbLoad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true" />
+
+            <ImageView
+                android:id="@+id/ivStop"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_stop"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/stop_load" />
+
+        </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/llVJC"
+            android:orientation="horizontal"
+            android:layout_below="@+id/ivCover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvVues"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="47 vues"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvJaime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="127 j'aimes"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvComments"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="17 commentaires"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTD"
             android:orientation="vertical"
-            android:background="?attr/showBackground"
-            android:layout_alignBottom="@+id/ivCover"
-            android:padding="10dp"
+            android:layout_below="@+id/llVJC"
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -49,6 +114,47 @@
                 android:textColor="@color/black" />
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/llTD"
+            android:padding="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/lion" />
+
+            <RelativeLayout
+                android:layout_toEndOf="@+id/ivAvatar"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNoms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nom_utilisateur"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvNoms"
+                    android:text="Date de publication"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

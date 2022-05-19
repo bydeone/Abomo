@@ -32,14 +32,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/lion" />
+                    android:src="@drawable/lion"
+                    android:contentDescription="@string/camera" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivAvatar"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignTop="@+id/llInfos"
+                    android:layout_marginTop="170dp"
                     android:layout_marginBottom="5dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/lion"
@@ -49,7 +50,7 @@
                 <LinearLayout
                     android:id="@+id/llInfos"
                     android:background="#abcdef"
-                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="320dp"
                     android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,6 +108,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvXpert"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/iam_xpert"
+                app:drawableEndCompat="@drawable/ic_action_xpert" />
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swTheme"
                 style="@style/sw_settings"
@@ -120,6 +129,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Langue (Français)" />
+
+            <TextView
+                android:id="@+id/tvInfoCompte"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_compte"
+                app:drawableEndCompat="@drawable/ic_action_infos" />
 
             <TextView
                 android:id="@+id/tvSignout"

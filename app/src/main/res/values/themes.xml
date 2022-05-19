@@ -35,6 +35,11 @@
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginTop">3dp</item>
     </style>
+    <style name="tv_settings_trois">
+        <item name="android:background">?attr/tvBackground</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="sw_settings">
         <item name="android:background">?attr/tvBackground</item>
         <item name="android:padding">20dp</item>
