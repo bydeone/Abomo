@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/tvitem.xml" value="0.231" />
         <entry key="app/src/main/res/drawable/redtv.xml" value="0.256" />
         <entry key="app/src/main/res/layout/activity_add_immeuble.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_add_locataire.xml" value="0.21739130434782608" />
         <entry key="app/src/main/res/layout/activity_add_loyer.xml" value="0.3319746376811594" />
         <entry key="app/src/main/res/layout/activity_add_post.xml" value="0.3319746376811594" />
+        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_conditions.xml" value="0.3319746376811594" />
+        <entry key="app/src/main/res/layout/activity_gallery.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_show_immeuble.xml" value="0.2625" />
@@ -18,11 +21,12 @@
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_signaler.xml" value="0.2625" />
+        <entry key="app/src/main/res/layout/dialog_comment.xml" value="0.26145833333333335" />
         <entry key="app/src/main/res/layout/dialog_noter.xml" value="0.26145833333333335" />
         <entry key="app/src/main/res/layout/dialog_signaler.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.2625" />
-        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.2625" />
+        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/item_gallery.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/item_immeuble.xml" value="0.2625" />

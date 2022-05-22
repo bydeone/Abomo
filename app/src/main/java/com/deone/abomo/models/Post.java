@@ -35,6 +35,7 @@ public class Post implements Comparable<Post>{
     private String pncommentaires;
     private String pnvues;
     private String pnnotes;
+    private String pntravaux;
     private String pdate;
     private String uid;
     private String unoms;
@@ -43,14 +44,7 @@ public class Post implements Comparable<Post>{
     public Post() {
     }
 
-    public Post(String pid, String ptitre,
-                String pcover, String pdescription,
-                String pnlikes, String pnfavorites,
-                String pnshares, String pnsignales,
-                String pncompares, String pnimages,
-                String pncommentaires, String pnvues,
-                String pnnotes, String pdate,
-                String uid, String unoms, String uavatar) {
+    public Post(String pid, String ptitre, String pcover, String pdescription, String pnlikes, String pnfavorites, String pnshares, String pnsignales, String pncompares, String pnimages, String pncommentaires, String pnvues, String pnnotes, String pntravaux, String pdate, String uid, String unoms, String uavatar) {
         this.pid = pid;
         this.ptitre = ptitre;
         this.pcover = pcover;
@@ -64,6 +58,7 @@ public class Post implements Comparable<Post>{
         this.pncommentaires = pncommentaires;
         this.pnvues = pnvues;
         this.pnnotes = pnnotes;
+        this.pntravaux = pntravaux;
         this.pdate = pdate;
         this.uid = uid;
         this.unoms = unoms;
@@ -174,6 +169,14 @@ public class Post implements Comparable<Post>{
         this.pnnotes = pnnotes;
     }
 
+    public String getPntravaux() {
+        return pntravaux;
+    }
+
+    public void setPntravaux(String pntravaux) {
+        this.pntravaux = pntravaux;
+    }
+
     public String getPdate() {
         return pdate;
     }
@@ -219,7 +222,7 @@ public class Post implements Comparable<Post>{
         HashMap<String, String> hashMap = preparePostData(
                 pid, ""+ ptitre, ""+ pcover, ""+ pdescription,
                 "0", "0","0", "0",
-                "0", "0", "0", "0",
+                "0", "0", "0", "0", "0",
                 "0", ""+ pdate, ""+uid,  ""+unoms, ""+uavatar);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
         reference.child(POSTS).child(pid).setValue(hashMap)

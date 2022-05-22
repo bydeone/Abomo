@@ -17,5 +17,6 @@ public class ConstantsTools {
     public static final String SHARES = "Shares";
     public static final String FAVORITES = "Favorites";
     public static final String SIGNALES = "Signales";
+    public static final String COMMENTS = "Comments";
 
 }

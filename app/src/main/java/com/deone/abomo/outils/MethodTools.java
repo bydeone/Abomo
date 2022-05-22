@@ -15,6 +15,7 @@ import static com.deone.abomo.outils.ConstantsTools.USERS;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +25,14 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.DateFormat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiContext;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
@@ -252,7 +257,7 @@ public class MethodTools {
                                                           String pnlikes, String pnfavorites, String pnshares,
                                                           String pnsignales, String pncompares,
                                                           String pnimages, String pncommentaires,
-                                                          String pnvues, String pnnotes,
+                                                          String pnvues, String pnnotes, String pntravaux,
                                                           String pdate, String uid,
                                                           String unoms, String uavatar
                                                               ) {
@@ -267,6 +272,7 @@ public class MethodTools {
         hashMap.put("pnsignales", pnsignales);
         hashMap.put("pncompares", pncompares);
         hashMap.put("pnimages", pnimages);
+        hashMap.put("pntravaux", pntravaux);
         hashMap.put("pncommentaires", pncommentaires);
         hashMap.put("pnvues", pnvues);
         hashMap.put("pnnotes", pnnotes);
@@ -284,7 +290,7 @@ public class MethodTools {
                 "", "",
                 "", "",
                 "", "",
-                "", "",
+                "", "", "",
                 "", ""+timestamp,
                 ""+uid, ""+unoms, ""+uavatar);
         if (imageUri != null){
@@ -294,7 +300,7 @@ public class MethodTools {
         }
     }
 
-    public static void supprimerUnPost(Activity activity, DatabaseReference reference, String pid) {
+    public static void supprimerUnPost(@UiContext @NonNull Activity activity, DatabaseReference reference, String pid) {
         reference.child(POSTS).child(pid).removeValue().addOnSuccessListener(unused -> {
             Toast.makeText(activity, ""+activity.getString(R.string.delete_success), Toast.LENGTH_SHORT).show();
             activity.finish();
@@ -341,6 +347,24 @@ public class MethodTools {
         long days = TimeUnit.MILLISECONDS.toDays(timestamp);*/
 
         return null;
+    }
+
+    private void showCommentsDialog(@NonNull Activity activity) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.setContentView(R.layout.dialog_comment);
+        TextView tvTitre = dialog.findViewById(R.id.tvTitre);
+        TextView tvMessage = dialog.findViewById(R.id.tvMessage);
+        CheckBox cbSignale = dialog.findViewById(R.id.cbSignale);
+        Button btSignaler = dialog.findViewById(R.id.btSignaler);
+        Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
+        btSignaler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
+        dialog.show();
     }
 
 }

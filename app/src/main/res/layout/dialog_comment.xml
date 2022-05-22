@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/pageBackground"
-    tools:context=".fragments.CommentFrag">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComments"
-        android:layout_above="@+id/llComment"
-        android:layout_below="@+id/toolbar"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        tools:listitem="@layout/item_comment"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llComment"
+        tools:listitem="@layout/item_comment" />
 
     <RelativeLayout
         android:id="@+id/llComment"
@@ -35,14 +25,14 @@
             android:id="@+id/edtvComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/ivComment"
+            android:layout_toStartOf="@+id/ibComment"
             android:background="@color/white"
             android:hint="@string/votre_commentaire"
             android:inputType="text"
             android:padding="20sp" />
 
         <ImageButton
-            android:id="@+id/ivComment"
+            android:id="@+id/ibComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/pageBackground"
+    tools:context=".CommentsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComments"
+        android:layout_above="@+id/llComment"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/item_comment"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/llComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ibComment"
+            android:background="@color/white"
+            android:hint="@string/votre_commentaire"
+            android:inputType="text"
+            android:padding="20sp" />
+
+        <ImageButton
+            android:id="@+id/ibComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/send_comment"
+            android:padding="10dp"
+            android:src="@drawable/ic_action_send" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -87,4 +87,10 @@
     <string name="ajouter_image">Ajouter une image</string>
     <string name="travaux_amenagements">Travaux d\'aménagement</string>
     <string name="locataire">Locataire</string>
+    <string name="negociation">Négociation</string>
+    <string name="commentaires">Commentaires</string>
+    <string name="unjaime">Voulez-vous ne plus aimer cette publication</string>
+    <string name="error_comment">Votre commentaire est vide!</string>
+    <string name="success_comment">Commentaire ajoutée</string>
+    <string name="vous">vous</string>
 </resources>
