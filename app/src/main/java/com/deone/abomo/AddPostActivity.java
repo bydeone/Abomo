@@ -80,6 +80,8 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
             myuid = fuser.getUid();
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
             initviews();
+            Query query = reference.child(USERS).orderByKey().equalTo(myuid);
+            query.addListenerForSingleValueEvent(valuser);
         }else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -92,10 +94,6 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         edtvDescription = findViewById(R.id.edtvDescription);
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        Query query = reference.child(USERS).orderByKey().equalTo(myuid);
-        query.addListenerForSingleValueEvent(valuser);
-
         findViewById(R.id.btAddImmeuble).setOnClickListener(this);
         ivCover.setOnClickListener(this);
     }

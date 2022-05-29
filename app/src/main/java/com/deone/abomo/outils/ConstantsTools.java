@@ -18,5 +18,8 @@ public class ConstantsTools {
     public static final String FAVORITES = "Favorites";
     public static final String SIGNALES = "Signales";
     public static final String COMMENTS = "Comments";
+    public static final String IMAGES = "Images";
+
+    //463852297281-t5r0qrec0sufjm0rsu2l4kk06d6eo9k6.apps.googleusercontent.com
 
 }

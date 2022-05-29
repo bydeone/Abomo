@@ -79,7 +79,7 @@
     <string name="votre_commentaire">Votre commentaire</string>
     <string name="post_images">La gallérie de la publication</string>
     <string name="post_comments">Les commentaires sur le publication</string>
-    <string name="notif_comment">Recevoir les notifications des commentaires</string>
+    <string name="notif_comment">Notifications des commentaires</string>
     <string name="delete_this_post">Supprimer cette publication</string>
     <string name="signaler_this_post">Signaler cette publication</string>
     <string name="show_gallery">Afficher la gallérie</string>
@@ -93,4 +93,23 @@
     <string name="error_comment">Votre commentaire est vide!</string>
     <string name="success_comment">Commentaire ajoutée</string>
     <string name="vous">vous</string>
+    <string name="ajouter_une_image">Ajouter une image</string>
+    <string name="image_item">Une image</string>
+    <string name="image_titre">Titre de l\'image</string>
+    <string name="image_description">Mon rôle en tant que IT MANAGER à VIP CALL CENTER est de planifier, coordonner et gérer leurs systèmes d’information.C’est en ce sens que je suis responsable de l’infrastructure IT, des serveurs aux réseaux en passant par les postes de travail. Je m’assure donc que le personnel dispose du matériel et des logiciels nécessaires à l’exécution de ses tâches et que ces systèmes disposent de connexions réseau en bon état de fonctionnement. J’analyse les besoins</string>
+    <string name="add_image">Ajouter cet image</string>
+    <string name="image_error">Vous n\'avez pas choisi d\'image!</string>
+    <string name="success_image">Image ajoutée</string>
+    <string name="notation">Notation</string>
+    <string name="comparaison">Comparer</string>
+    <string name="estimation">Estimer</string>
+    <string name="gestion_immobiliere">Gestion immobilière</string>
+    <string name="all_comments">Tous les commentaires</string>
+    <string name="favory_comment">Commentaires de mes favories</string>
+    <string name="signale_comment">Commentaires de mes signalements</string>
+    <string name="share_comment">Commentaires de mes partages</string>
+    <string name="jaime_comment">Commentaires de mes j\'aimes</string>
+    <string name="all_gallery">Gallerie ouverte à tous</string>
+    <string name="abonnes_gallery">Gallerie ouverte aux abonnés</string>
+    <string name="jaime_gallery">Gallerie ouverte à ceux qui aiment la publication</string>
 </resources>

@@ -246,7 +246,7 @@ public class Post implements Comparable<Post>{
     }
 
     public void ajouterImage(Activity activity, Uri imageUri, String field){
-        String filePathAndName = "Immeubles/"+"immeuble_" + pid + "_" +  field + "_" + pdate;
+        String filePathAndName = "Post/"+"post_" + pid + "_" +  field + "_" + pdate;
         ProgressDialog progressDialog = showProgressDialog(
                 activity,
                 ""+activity.getString(R.string.app_name),

@@ -78,17 +78,6 @@
                     app:drawableEndCompat="@drawable/ic_action_unfavorite" />
 
                 <TextView
-                    android:id="@+id/tvPartage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="13"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_action_unpartage" />
-
-                <TextView
                     android:id="@+id/tvSignalement"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -98,6 +87,14 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:drawableEndCompat="@drawable/ic_action_unsignaler" />
+
+                <ImageButton
+                    android:id="@+id/ibPartage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_action_unpartage"
+                    android:background="@null"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -116,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvPost"
                 android:text="@string/gallery"
-                app:drawableEndCompat="@drawable/ic_action_image" />
+                app:drawableEndCompat="@drawable/ic_action_gallery" />
 
             <TextView
                 android:id="@+id/tvCommentaires"
@@ -127,29 +124,22 @@
                 android:text="@string/commentaires"
                 app:drawableEndCompat="@drawable/ic_action_uncomment" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/swNotifComment"
-                style="@style/sw_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCommentaires"
-                android:text="@string/notif_comment" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/swShowGallery"
-                style="@style/sw_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/swNotifComment"
-                android:text="@string/show_gallery" />
-
             <TextView
-                android:id="@+id/tvNotes"
+                android:id="@+id/tvNotifications"
                 style="@style/tv_settings_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/swShowGallery"
-                android:text="@string/noter_post"
+                android:layout_below="@+id/tvCommentaires"
+                android:text="@string/notifications"
+                app:drawableEndCompat="@drawable/ic_action_notification" />
+
+            <TextView
+                android:id="@+id/tvNotations"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNotifications"
+                android:text="@string/notation"
                 app:drawableEndCompat="@drawable/ic_action_note" />
 
             <TextView
@@ -157,9 +147,9 @@
                 style="@style/tv_settings_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNotes"
-                android:text="@string/comparer"
-                app:drawableEndCompat="@drawable/ic_action_notification" />
+                android:layout_below="@+id/tvNotations"
+                android:text="@string/comparaison"
+                app:drawableEndCompat="@drawable/ic_action_compare" />
 
             <TextView
                 android:id="@+id/tvEstimation"
@@ -167,42 +157,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvComparaison"
-                android:text="@string/estimer"
-                app:drawableEndCompat="@drawable/ic_action_notification" />
+                android:text="@string/estimation"
+                app:drawableEndCompat="@drawable/ic_action_estimer" />
 
             <TextView
-                android:id="@+id/tvTravaux"
+                android:id="@+id/tvGestionImmobiliere"
                 style="@style/tv_settings_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvEstimation"
-                android:text="@string/travaux_amenagements"
-                app:drawableEndCompat="@drawable/ic_action_travaux" />
-
-            <TextView
-                android:id="@+id/tvLocataire"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTravaux"
-                android:text="@string/locataire"
-                app:drawableEndCompat="@drawable/ic_action_person" />
-
-            <TextView
-                android:id="@+id/tvNegociation"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvLocataire"
-                android:text="@string/negociation"
-                app:drawableEndCompat="@drawable/ic_action_person" />
+                android:text="@string/gestion_immobiliere"
+                app:drawableEndCompat="@drawable/ic_action_gestion" />
 
             <TextView
                 android:id="@+id/tvSignaler"
                 style="@style/tv_settings_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNegociation"
+                android:layout_below="@+id/tvGestionImmobiliere"
                 android:text="@string/signaler_this_post"
                 app:drawableEndCompat="@drawable/ic_action_signaler" />
 

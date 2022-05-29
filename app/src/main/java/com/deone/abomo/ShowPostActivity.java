@@ -5,29 +5,25 @@ import static com.deone.abomo.outils.ConstantsTools.FAVORITES;
 import static com.deone.abomo.outils.ConstantsTools.LIKES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.SIGNALES;
-import static com.deone.abomo.outils.ConstantsTools.USERS;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
-import static com.deone.abomo.outils.MethodTools.deconnecter;
 import static com.deone.abomo.outils.MethodTools.formatDetailsPost;
 import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.supprimerUnPost;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,24 +31,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
 
 import com.deone.abomo.models.Favorite;
-import com.deone.abomo.models.Like;
 import com.deone.abomo.models.Post;
 import com.deone.abomo.models.Signale;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-public class ShowPostActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ShowPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Post post;
     private DatabaseReference reference;
@@ -64,16 +56,20 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private boolean favoriteProcess = false;
     private boolean signaleProcess = false;
     private ImageView ivCover;
+    private ImageButton ibPartage;
     private TextView tvPost;
-    private TextView tvSupprimer;
-    private TextView tvSignaler;
-    private TextView tvTravaux;
-    private TextView tvWork;
     private TextView tvPhotos;
     private TextView tvCommentaires;
+    private TextView tvNotifications;
+    private TextView tvNotation;
+    private TextView tvComparaison;
+    private TextView tvEstimation;
+    private TextView tvGestionImmobiliere;
+    private TextView tvWork;
+    private TextView tvSignaler;
+    private TextView tvSupprimer;
     private TextView tvJaime;
     private TextView tvFavorite;
-    private TextView tvPartage;
     private TextView tvSignalement;
     private final ValueEventListener valpost = new ValueEventListener() {
         @Override
@@ -98,7 +94,6 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                             0,
                             ds.child(FAVORITES).hasChild(myuid) ? R.drawable.ic_action_favorite:R.drawable.ic_action_unfavorite,
                             0);
-                    tvPartage.setText(post.getPnshares());
                     tvSignalement.setText(post.getPnsignales());
                     tvWork.setText(post.getPntravaux());
 
@@ -154,30 +149,51 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setSubtitle(getString(R.string.post_infos));
+        // Image de couverture de la publication
         ivCover = findViewById(R.id.ivCover);
+        // Liste des boutons d'action
         tvJaime = findViewById(R.id.tvJaime);
         tvFavorite = findViewById(R.id.tvFavorite);
-        tvPartage = findViewById(R.id.tvPartage);
+        ibPartage = findViewById(R.id.ibPartage);
         tvSignalement = findViewById(R.id.tvSignalement);
+        tvNotifications = findViewById(R.id.tvNotifications);
+        tvNotation = findViewById(R.id.tvNotations);
         tvPost = findViewById(R.id.tvPost);
-        tvTravaux = findViewById(R.id.tvTravaux);
         tvWork = findViewById(R.id.tvWork);
+        // Accès à la gallerie de la publication
         tvPhotos = findViewById(R.id.tvPhotos);
+        // Accès aux commentaires de la publication
         tvCommentaires = findViewById(R.id.tvCommentaires);
+        // Accès à l'interface de comparaison de la publication, pour le visiteur, avec des publications similaires
+        tvComparaison = findViewById(R.id.tvComparaison);
+        tvComparaison.setVisibility(myuid.equals(uid)?View.GONE:View.VISIBLE);
+        // Accès à l'interface d'estimation de la publication par les experts (cette notion est à bien définir)
+        tvEstimation = findViewById(R.id.tvEstimation);
+        tvEstimation.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
+        // Accès à l'interface de gestion immobilière reservé au proprietaire de la publication
+        tvGestionImmobiliere = findViewById(R.id.tvGestionImmobiliere);
+        tvGestionImmobiliere.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
+        // Suppression de la publication
         tvSupprimer = findViewById(R.id.tvSupprimer);
         tvSupprimer.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
+        // Signalement de la publication
         tvSignaler = findViewById(R.id.tvSignaler);
         tvSignaler.setVisibility(myuid.equals(uid)?View.GONE:View.VISIBLE);
+
         tvSupprimer.setOnClickListener(this);
         tvSignaler.setOnClickListener(this);
         tvJaime.setOnClickListener(this);
         tvFavorite.setOnClickListener(this);
-        tvPartage.setOnClickListener(this);
+        ibPartage.setOnClickListener(this);
         tvSignalement.setOnClickListener(this);
-        tvTravaux.setOnClickListener(this);
         tvWork.setOnClickListener(this);
         tvPhotos.setOnClickListener(this);
         tvCommentaires.setOnClickListener(this);
+        tvNotifications.setOnClickListener(this);
+        tvNotation.setOnClickListener(this);
+        tvComparaison.setOnClickListener(this);
+        tvEstimation.setOnClickListener(this);
+        tvGestionImmobiliere.setOnClickListener(this);
     }
 
     @Override
@@ -212,7 +228,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             aimerUnPost();
         } else if (id == R.id.tvFavorite && !myuid.equals(uid)){
             favoriteUnPost();
-        } else if (id == R.id.tvPartage && !myuid.equals(uid)){
+        } else if (id == R.id.ibPartage && !myuid.equals(uid)){
             partagerUnPost();
         } else if (id == R.id.tvSignalement){
             signalerUnPost();
@@ -226,19 +242,28 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(this, CommentsActivity.class);
             intent.putExtra("pid", pid);
             startActivity(intent);
+        } else if (id == R.id.tvNotifications){
+            Intent intent = new Intent(this, NotificationsActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);
+        } else if (id == R.id.tvNotations){
+            Intent intent = new Intent(this, NotationsActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);
+        } else if (id == R.id.tvComparaison){
+            Intent intent = new Intent(this, ComparaisonActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);
+        } else if (id == R.id.tvEstimation){
+            Intent intent = new Intent(this, EstimationActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);
+        } else if (id == R.id.tvGestionImmobiliere){
+            Intent intent = new Intent(this, GestionImmobiliereActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);
         }
     }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int id = buttonView.getId();
-        if (id == R.id.swShowGallery){
-
-        }else if (id == R.id.swNotifComment){
-
-        }
-    }
-
 
     private void initializeFavorites(DataSnapshot ds) {
         tvFavorite.setText(post.getPnfavorites());
@@ -262,10 +287,6 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                 tvSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
             }
         }
-    }
-
-    private void initializeShares(DataSnapshot ds) {
-        tvPartage.setText(post.getPnshares());
     }
 
     private void aimerUnPost() {

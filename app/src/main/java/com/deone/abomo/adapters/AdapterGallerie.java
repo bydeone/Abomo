@@ -16,6 +16,7 @@ import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deone.abomo.R;
+import com.deone.abomo.models.Image;
 import com.deone.abomo.models.Post;
 import com.deone.abomo.outils.Alistener;
 import com.squareup.picasso.Callback;
@@ -27,58 +28,38 @@ public class AdapterGallerie extends RecyclerView.Adapter<AdapterGallerie.MyHold
 
     private final Context context;
     private Alistener listener;
-    private final List<Post> postList;
+    private final List<Image> imageList;
 
 
-    public AdapterGallerie(Context context, List<Post> postList) {
+    public AdapterGallerie(Context context, List<Image> imageList) {
             this.context = context;
-            this.postList = postList;
+            this.imageList = imageList;
     }
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false);
             return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        String avatar = postList.get(position).getUavatar();
-        String cover = postList.get(position).getPcover();
-        String titre = postList.get(position).getPtitre();
-        String description = postList.get(position).getPdescription();
-        String vues = postList.get(position).getPnvues();
-        String jaimes = postList.get(position).getPnlikes();
-        String commentaires = postList.get(position).getPncommentaires();
-        String nom = postList.get(position).getUnoms();
-        String date = postList.get(position).getPdate();
+        String cover = imageList.get(position).getIcover();
+        String titre = imageList.get(position).getItitre();
+        String description = imageList.get(position).getIdescription();
+        String date = imageList.get(position).getIdate();
 
-        Picasso.get().load(cover).placeholder(R.drawable.lion).into(holder.ivCover, new Callback() {
-            @Override
-            public void onSuccess() {
-                holder.pbLoad.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        Picasso.get().load(avatar).placeholder(R.drawable.lion).into(holder.ivAvatar);
-        holder.tvTitre.setText(HtmlCompat.fromHtml(titre, 0));
-        holder.tvDescription.setText(HtmlCompat.fromHtml(description, 0));
-        holder.tvVues.setText(context.getString(R.string.nbre_vues, vues));
-        holder.tvJaime.setText(context.getString(R.string.nbre_jaimes, jaimes));
-        holder.tvComments.setText(context.getString(R.string.nbre_commentaires, commentaires));
-        holder.tvNoms.setText(nom);
+        Picasso.get().load(cover).placeholder(R.drawable.lion).into(holder.ivGallery);
+        holder.tvTitre.setText(titre);
+        holder.tvDescription.setText(description);
         holder.tvDate.setText(formatHeureJourAn(""+date));
 
     }
 
     @Override
     public int getItemCount() {
-            return postList.size();
+            return imageList.size();
             }
 
 
@@ -91,29 +72,17 @@ public class AdapterGallerie extends RecyclerView.Adapter<AdapterGallerie.MyHold
             implements View.OnClickListener,
             View.OnLongClickListener {
 
-        ProgressBar pbLoad;
-        ImageView ivCover;
-        ImageView ivAvatar;
+        ImageView ivGallery;
         TextView tvTitre;
         TextView tvDescription;
-        TextView tvVues;
-        TextView tvJaime;
-        TextView tvComments;
-        TextView tvNoms;
         TextView tvDate;
 
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            pbLoad = itemView.findViewById(R.id.pbLoad);
-            ivCover = itemView.findViewById(R.id.ivCover);
-            ivAvatar = itemView.findViewById(R.id.ivAvatar);
+            ivGallery = itemView.findViewById(R.id.ivGallery);
             tvTitre = itemView.findViewById(R.id.tvTitre);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvVues = itemView.findViewById(R.id.tvVues);
-            tvJaime = itemView.findViewById(R.id.tvJaime);
-            tvComments = itemView.findViewById(R.id.tvComments);
-            tvNoms = itemView.findViewById(R.id.tvNoms);
             tvDate = itemView.findViewById(R.id.tvDate);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

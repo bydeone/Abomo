@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/pageBackground"
+    tools:context=".NotificationsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:title="@string/notifications"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAllComments"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/all_comments" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swFavoryComments"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swAllComments"
+                android:drawableStart="@drawable/ic_action_unfavorite"
+                android:text="@string/favory_comment" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swSignaleComments"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swFavoryComments"
+                android:drawableStart="@drawable/ic_action_unsignaler"
+                android:text="@string/signale_comment" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swJaimeComments"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swSignaleComments"
+                android:drawableStart="@drawable/ic_action_unjaime"
+                android:text="@string/jaime_comment" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swShareComments"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swJaimeComments"
+                android:drawableStart="@drawable/ic_action_unpartage"
+                android:text="@string/share_comment" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAllGallery"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swShareComments"
+                android:text="@string/all_gallery" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAbonnesGallery"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swAllGallery"
+                android:text="@string/abonnes_gallery" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swJaimeGallery"
+                style="@style/sw_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swAbonnesGallery"
+                android:text="@string/jaime_gallery" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

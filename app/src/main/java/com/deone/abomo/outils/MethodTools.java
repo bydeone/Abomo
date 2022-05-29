@@ -4,26 +4,24 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
-import static com.deone.abomo.outils.ConstantsTools.FAVORITES;
 import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
-import static com.deone.abomo.outils.ConstantsTools.LIKES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
-import static com.deone.abomo.outils.ConstantsTools.SHARES;
-import static com.deone.abomo.outils.ConstantsTools.SIGNALES;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
-import static com.deone.abomo.outils.ConstantsTools.USERS;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +32,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiContext;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -45,15 +42,15 @@ import com.deone.abomo.models.Post;
 import com.deone.abomo.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class MethodTools {
     public static String customTitre(Context context, String titre, String description, String date) {
@@ -349,7 +346,7 @@ public class MethodTools {
         return null;
     }
 
-    private void showCommentsDialog(@NonNull Activity activity) {
+    private static void showCommentsDialog(Activity activity) {
         final Dialog dialog = new Dialog(activity);
         dialog.setContentView(R.layout.dialog_comment);
         TextView tvTitre = dialog.findViewById(R.id.tvTitre);
@@ -365,6 +362,42 @@ public class MethodTools {
         });
         btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
         dialog.show();
+    }
+
+    public static String saveImageToSdCard(Activity activity) {
+        File chemin = null;
+        Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.lion);
+        File sdCard = Environment.getExternalStorageDirectory();
+        File repertoire = new File(sdCard.getAbsolutePath()+"/Expert/ExpertImage");
+        if (repertoire.mkdirs()){
+            chemin = new File(repertoire, "xLion.png");
+            Toast.makeText(activity, "Image save to sd card", Toast.LENGTH_SHORT).show();
+            try(OutputStream output = new FileOutputStream(chemin)){
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+
+                output.flush();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        assert chemin != null;
+        return chemin.getAbsolutePath();
+    }
+
+    public static String saveImageToInternalMemory(Activity activity) {
+        ContextWrapper cw = new ContextWrapper(activity);
+        File repertoire = cw.getDir("imagedir", MODE_PRIVATE);
+        File chemin = new File(repertoire, "xLion.jpg");
+        Bitmap bitmap = null;
+        try(FileOutputStream fos = new FileOutputStream(chemin)){
+            assert false;
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return chemin.getAbsolutePath();
     }
 
 }
