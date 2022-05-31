@@ -15,6 +15,8 @@ import static com.deone.abomo.outils.MethodTools.timestampToString;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ import androidx.core.text.HtmlCompat;
 
 import com.bumptech.glide.Glide;
 import com.deone.abomo.models.Favorite;
+import com.deone.abomo.models.Note;
 import com.deone.abomo.models.Post;
 import com.deone.abomo.models.Signale;
 import com.deone.abomo.models.User;
@@ -58,6 +61,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private String myuid;
     private String pid;
     private String uid;
+    private String manote = "";
     private boolean likeProcess = false;
     private boolean favoriteProcess = false;
     private boolean signaleProcess = false;
@@ -88,7 +92,8 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                 tvPost.setText(HtmlCompat.fromHtml(formatDetailsPost(ShowPostActivity.this,
                         ""+post.getPtitre(), ""+post.getPdescription(),
                         ""+post.getPdate()), 0));
-
+                if (ds.child("Notes").hasChild(myuid))
+                    manote = ds.child("Notes").child(myuid).child("nnote").getValue(String.class);
                 Glide.with(ShowPostActivity.this)
                         .load(post.getPcover())
                         .placeholder(R.drawable.lion)
@@ -292,44 +297,30 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("pid", pid);
             startActivity(intent);
         } else if (id == R.id.tvNotations){
-            final Dialog dialog = new Dialog(this);
-            dialog.setCancelable(false);
-            dialog.setContentView(R.layout.dialog_noter);
-            RatingBar rtNoterPost = dialog.findViewById(R.id.rtNoterPost);
-            Button btNoter = dialog.findViewById(R.id.btNoter);
-            Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
-            btNoter.setOnClickListener(v12 -> {
-                String note = String.valueOf(rtNoterPost.getProgress());
-                if (note.isEmpty()){
-                    Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_note), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                prepareNoteData(dialog, note);
-            });
-            btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
-            dialog.show();
-            /*if (myuid.equals(uid)){
+            if (myuid.equals(uid)){
                 Intent intent = new Intent(this, NotationsActivity.class);
                 intent.putExtra("pid", pid);
                 startActivity(intent);
             }else {
                 final Dialog dialog = new Dialog(this);
-                dialog.setCancelable(false);
                 dialog.setContentView(R.layout.dialog_noter);
+                TextView tvMaNote = dialog.findViewById(R.id.tvMaNote);
+                if(!manote.isEmpty())
+                    tvMaNote.setText(String.format("Votre note (%s)", manote));
                 RatingBar rtNoterPost = dialog.findViewById(R.id.rtNoterPost);
-                Button btNoter = dialog.findViewById(R.id.btNoter);
-                Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
-                btNoter.setOnClickListener(v12 -> {
+                if(!manote.isEmpty())
+                    rtNoterPost.setRating(Float.parseFloat(manote));
+                rtNoterPost.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> tvMaNote.setText(String.format("Votre note (%s)", rating)));
+                dialog.findViewById(R.id.btNoter).setOnClickListener(v12 -> {
                     String note = String.valueOf(rtNoterPost.getProgress());
                     if (note.isEmpty()){
                         Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_note), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    prepareNoteData(note);
+                    prepareNoteData(dialog, note);
                 });
-                btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
                 dialog.show();
-            }*/
+            }
         } else if (id == R.id.tvComparaison){
             Intent intent = new Intent(this, ComparaisonActivity.class);
             intent.putExtra("pid", pid);
@@ -359,27 +350,40 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
 
     private void prepareNoteData(final Dialog dialog, String note) {
         String timestamp = String.valueOf(System.currentTimeMillis());
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("nid", timestamp);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("nid", myuid);
         hashMap.put("nnote", note);
-        hashMap.put("uid", user.getUid());
+        hashMap.put("uid", myuid);
         hashMap.put("unoms", user.getUnoms());
         hashMap.put("uavatar", user.getUavatar());
         hashMap.put("ndate", timestamp);
-        saveNoteData(dialog,""+timestamp, hashMap);
+        saveNoteData(dialog, hashMap);
     }
 
-    private void saveNoteData(final Dialog dialog, String timestamp, HashMap<String, String> hashMap) {
-        reference.child(POSTS).child(pid).child("Notes").child(timestamp)
-                .setValue(hashMap)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(ShowPostActivity.this, ""+getString(R.string.add_note_success), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                });
+    private void saveNoteData(final Dialog dialog, HashMap<String, Object> hashMap) {
+        if(manote.isEmpty()){
+            reference.child(POSTS).child(pid).child("Notes").child(myuid)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.add_note_success), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+        }else{
+            reference.child(POSTS).child(pid).child("Notes").child(myuid)
+                    .updateChildren(hashMap)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.update_note_success), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+        }
     }
 
     private void initializeFavorites(DataSnapshot ds) {
@@ -499,5 +503,4 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             signaleProcess = true;
         }
     }
-
 }

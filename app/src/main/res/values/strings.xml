@@ -118,4 +118,5 @@
     <string name="informations_publication">Informations publication</string>
     <string name="n_photos">Il y\'a %s dans la gallérie</string>
     <string name="add_note_success">Note ajoutée avec succès</string>
+    <string name="update_note_success">Note mise à jour avec succès</string>
 </resources>

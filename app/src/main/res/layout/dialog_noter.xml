@@ -4,35 +4,31 @@
     android:padding="10dp"
     android:layout_height="wrap_content">
 
-    <RatingBar
-        android:id="@+id/rtNoterPost"
-        android:numStars="10"
-        android:stepSize="5"
+    <TextView
+        android:id="@+id/tvMaNote"
+        android:text="Votre note"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
+    <RatingBar
+        android:id="@+id/rtNoterPost"
+        android:layout_below="@+id/tvMaNote"
+        android:numStars="10"
+        android:stepSize="0.1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btNoter"
+        android:text="@string/noter"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/rtNoterPost"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="10dp">
-
-        <Button
-            android:id="@+id/btAnnuler"
-            android:text="@string/annuler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btNoter"
-            android:text="@string/noter"
-            android:layout_toEndOf="@+id/btAnnuler"
-            android:layout_marginStart="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
