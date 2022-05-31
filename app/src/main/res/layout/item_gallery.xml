@@ -8,6 +8,7 @@
     app:cardElevation="5dp">
 
     <RelativeLayout
+        android:background="?attr/itemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 

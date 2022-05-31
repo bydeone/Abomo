@@ -1,7 +1,6 @@
 package com.deone.abomo;
 
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
-import static com.deone.abomo.outils.ConstantsTools.COMMENTS;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGES;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_CAMERA_CODE;
@@ -10,16 +9,10 @@ import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
-import static com.deone.abomo.outils.MethodTools.creerUnPost;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.showProgressDialog;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -34,9 +27,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.deone.abomo.models.Image;
-import com.deone.abomo.models.Post;
-import com.deone.abomo.models.User;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,18 +40,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+
 public class AddImageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView ivCover;
     private EditText edtvTitre;
     private EditText edtvDescription;
-    private Uri imageUri;
+    private Uri imageUri = null;
     private String[] cameraPermissions;
     private String[] storagePermissions;
-    private String myuid;
     private String pid;
-    private User user;
-    private Post post;
+    private String pnimages;
     private DatabaseReference reference;
 
     @Override
@@ -69,8 +64,8 @@ public class AddImageActivity extends AppCompatActivity implements View.OnClickL
     private void checkuser() {
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fuser != null){
-            myuid = fuser.getUid();
             pid = dataForActivity(this, "pid");
+            pnimages = dataForActivity(this, "pnimages");
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
             initviews();
         }else {
@@ -123,8 +118,8 @@ public class AddImageActivity extends AppCompatActivity implements View.OnClickL
 
     private void pickFromCamera() {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "Post cover Title");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "Post cover Description");
+        values.put(MediaStore.Images.Media.TITLE, "Post gallery Title");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Post gallery Description");
         imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -151,63 +146,67 @@ public class AddImageActivity extends AppCompatActivity implements View.OnClickL
             ).show();
             return;
         }
+        ajouterUneImage(""+titre, ""+description);
+    }
+
+    private void ajouterUneImage(String titre, String description) {
         if (imageUri == null){
             Toast.makeText(
                     this,
                     ""+getString(R.string.image_error),
                     Toast.LENGTH_SHORT
             ).show();
-            return;
-        }
-        ajouterUneImage(""+titre, ""+description);
-    }
+        }else {
+            String timestamp = String.valueOf(System.currentTimeMillis());
+            String filePathAndName = "Post/" + pid + "/Images/"  + titre.replace(" ", "") + "_" + timestamp;
+            ProgressDialog progressDialog = showProgressDialog(
+                    this,
+                    ""+getString(R.string.app_name),
+                    ""+getString(R.string.add_image_message, filePathAndName));
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+            storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isSuccessful());
 
-    private void ajouterUneImage(String titre, String description) {
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        String filePathAndName = "Post/"+"post_" + pid + "/images/"  + titre + "_" + timestamp;
-        ProgressDialog progressDialog = showProgressDialog(
-                this,
-                ""+getString(R.string.app_name),
-                ""+getString(R.string.add_image_message, filePathAndName));
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
-        storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
-            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-            while (!uriTask.isSuccessful());
+                String downloadUri = uriTask.getResult().toString();
+                if (uriTask.isSuccessful()){
+                    progressDialog.dismiss();
+                    Toast.makeText(
+                            this,
+                            ""+getString(R.string.save_image_ok, filePathAndName),
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-            String downloadUri = uriTask.getResult().toString();
-            if (uriTask.isSuccessful()){
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("iid", timestamp);
+                    hashMap.put("icover", downloadUri);
+                    hashMap.put("ititre", titre);
+                    hashMap.put("idescription", description);
+                    hashMap.put("idate", timestamp);
+
+                    saveData(timestamp, hashMap);
+                }else
+                    progressDialog.dismiss();
+            }).addOnFailureListener(e -> {
                 progressDialog.dismiss();
                 Toast.makeText(
                         this,
-                        ""+getString(R.string.save_image_ok, filePathAndName),
-                        Toast.LENGTH_SHORT
-                ).show();
-                Image image = new Image(""+timestamp,""+downloadUri,""+titre,""+description,""+timestamp);
-                saveData(timestamp, image);
-            }else
-                progressDialog.dismiss();
-        }).addOnFailureListener(e -> {
-            progressDialog.dismiss();
-            Toast.makeText(
-                    this,
-                    ""+e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
-        });
+                        ""+e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
-    private void saveData(String timestamp, Image image) {
+    private void saveData(String timestamp, HashMap<String, String> hashMap) {
         reference.child(POSTS).child(pid)
                 .child(IMAGES).child(timestamp)
-                .setValue(image)
-                .addOnSuccessListener(unused -> {
-                    reference.child(POSTS).child(pid).child("pnimages").setValue(""+ (Integer.parseInt(post.getPnimages()) + 1))
-                            .addOnSuccessListener(unused1 -> {
-                                Toast.makeText(AddImageActivity.this, ""+getString(R.string.success_image), Toast.LENGTH_SHORT).show();
-                                finish();
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(AddImageActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
-                })
-                .addOnFailureListener(e -> Toast.makeText(AddImageActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+                .setValue(hashMap).addOnSuccessListener(unused -> reference.child(POSTS).child(pid)
+                        .child("pnimages")
+                        .setValue(""+ (Integer.parseInt(pnimages) + 1))
+                        .addOnSuccessListener(unused1 -> {
+                            Toast.makeText(AddImageActivity.this, ""+getString(R.string.success_image), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }).addOnFailureListener(e -> Toast.makeText(AddImageActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show())).addOnFailureListener(e -> Toast.makeText(AddImageActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     @Override

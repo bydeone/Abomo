@@ -74,7 +74,7 @@
     <string name="maj_commentaires">COMMENTAIRES</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="post_infos">Information de la publication</string>
+    <string name="post_infos">Publication %s du %s</string>
     <string name="send_comment">Envoyer votre commentaire</string>
     <string name="votre_commentaire">Votre commentaire</string>
     <string name="post_images">La gallérie de la publication</string>
@@ -112,4 +112,10 @@
     <string name="all_gallery">Gallerie ouverte à tous</string>
     <string name="abonnes_gallery">Gallerie ouverte aux abonnés</string>
     <string name="jaime_gallery">Gallerie ouverte à ceux qui aiment la publication</string>
+    <string name="annuler">Annuler</string>
+    <string name="noter">Noter</string>
+    <string name="no_note">Vous n\'avez mis aucune note</string>
+    <string name="informations_publication">Informations publication</string>
+    <string name="n_photos">Il y\'a %s dans la gallérie</string>
+    <string name="add_note_success">Note ajoutée avec succès</string>
 </resources>

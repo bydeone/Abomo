@@ -46,7 +46,6 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -56,7 +55,7 @@ public class MethodTools {
     public static String customTitre(Context context, String titre, String description, String date) {
         return context.getString(R.string.custom_post_titre, titre,
                 description,
-                timestampToString(context,
+                timestampToString(
                         ""+FORMAT_DATE_FULL_FR,
                         ""+date));
     }
@@ -110,7 +109,7 @@ public class MethodTools {
         editor.putBoolean("THEME", isChecked);
         editor.apply();
     }
-    public static String timestampToString(Context context, String format, String date) {
+    public static String timestampToString(String format, String date) {
         Calendar cal = Calendar.getInstance(Locale.FRANCE);
         cal.setTimeInMillis(Long.parseLong(date));
         return DateFormat.format(format, cal).toString();

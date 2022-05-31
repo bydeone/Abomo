@@ -45,7 +45,18 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/tvWork"
+                    android:id="@+id/tvRapidGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_action_gallery" />
+
+                <TextView
+                    android:id="@+id/tvRapidWork"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -56,7 +67,7 @@
                     app:drawableEndCompat="@drawable/ic_action_travaux" />
 
                 <TextView
-                    android:id="@+id/tvJaime"
+                    android:id="@+id/tvRapidJaime"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -67,7 +78,7 @@
                     app:drawableEndCompat="@drawable/ic_action_unjaime" />
 
                 <TextView
-                    android:id="@+id/tvFavorite"
+                    android:id="@+id/tvRapidFavorite"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -78,7 +89,7 @@
                     app:drawableEndCompat="@drawable/ic_action_unfavorite" />
 
                 <TextView
-                    android:id="@+id/tvSignalement"
+                    android:id="@+id/tvRapidSignalement"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -89,7 +100,7 @@
                     app:drawableEndCompat="@drawable/ic_action_unsignaler" />
 
                 <ImageButton
-                    android:id="@+id/ibPartage"
+                    android:id="@+id/ibRapidPartage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_action_unpartage"
@@ -170,11 +181,20 @@
                 app:drawableEndCompat="@drawable/ic_action_gestion" />
 
             <TextView
+                android:id="@+id/tvInformations"
+                style="@style/tv_settings_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvGestionImmobiliere"
+                android:text="@string/informations_publication"
+                app:drawableEndCompat="@drawable/ic_action_infos" />
+
+            <TextView
                 android:id="@+id/tvSignaler"
                 style="@style/tv_settings_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvGestionImmobiliere"
+                android:layout_below="@+id/tvInformations"
                 android:text="@string/signaler_this_post"
                 app:drawableEndCompat="@drawable/ic_action_signaler" />
 

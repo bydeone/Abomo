@@ -2,13 +2,16 @@ package com.deone.abomo;
 
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.FAVORITES;
+import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_SIMPLE;
 import static com.deone.abomo.outils.ConstantsTools.LIKES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.SIGNALES;
+import static com.deone.abomo.outils.ConstantsTools.USERS;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
 import static com.deone.abomo.outils.MethodTools.formatDetailsPost;
 import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.supprimerUnPost;
+import static com.deone.abomo.outils.MethodTools.timestampToString;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,9 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,23 +33,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
 
+import com.bumptech.glide.Glide;
 import com.deone.abomo.models.Favorite;
 import com.deone.abomo.models.Post;
 import com.deone.abomo.models.Signale;
+import com.deone.abomo.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class ShowPostActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Post post;
     private DatabaseReference reference;
     private Toolbar toolbar;
     private String myuid;
@@ -56,7 +62,6 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private boolean favoriteProcess = false;
     private boolean signaleProcess = false;
     private ImageView ivCover;
-    private ImageButton ibPartage;
     private TextView tvPost;
     private TextView tvPhotos;
     private TextView tvCommentaires;
@@ -65,43 +70,64 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvComparaison;
     private TextView tvEstimation;
     private TextView tvGestionImmobiliere;
-    private TextView tvWork;
-    private TextView tvSignaler;
-    private TextView tvSupprimer;
-    private TextView tvJaime;
-    private TextView tvFavorite;
-    private TextView tvSignalement;
+    private TextView tvInformations;
+    private TextView tvRapidGallery;
+    private TextView tvRapidWork;
+    private TextView tvRapidJaime;
+    private TextView tvRapidFavorite;
+    private TextView tvRapidSignalement;
+    private Post post;
+    private User user;
     private final ValueEventListener valpost = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             for(DataSnapshot ds : snapshot.getChildren()){
                 post = ds.getValue(Post.class);
                 assert post != null;
-                if (pid.equals(post.getPid())){
-                    tvPost.setText(HtmlCompat.fromHtml(formatDetailsPost(ShowPostActivity.this,
-                            ""+post.getPtitre(), ""+post.getPdescription(),
-                            ""+post.getPdate()), 0));
-                    Picasso.get().load(post.getPcover()).placeholder(R.drawable.ic_action_add_image).into(ivCover);
-                    tvJaime.setText(post.getPnlikes());
-                    tvJaime.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            0,
-                            0,
-                            ds.child(LIKES).hasChild(myuid) ? R.drawable.ic_action_jaime:R.drawable.ic_action_unjaime,
-                            0);
-                    tvFavorite.setText(post.getPnfavorites());
-                    tvFavorite.setCompoundDrawablesWithIntrinsicBounds(
-                            0,
-                            0,
-                            ds.child(FAVORITES).hasChild(myuid) ? R.drawable.ic_action_favorite:R.drawable.ic_action_unfavorite,
-                            0);
-                    tvSignalement.setText(post.getPnsignales());
-                    tvWork.setText(post.getPntravaux());
+                toolbar.setSubtitle(getString(R.string.post_infos, post.getPid(), timestampToString(""+FORMAT_DATE_SIMPLE, ""+post.getPdate())));
+                tvPost.setText(HtmlCompat.fromHtml(formatDetailsPost(ShowPostActivity.this,
+                        ""+post.getPtitre(), ""+post.getPdescription(),
+                        ""+post.getPdate()), 0));
+
+                Glide.with(ShowPostActivity.this)
+                        .load(post.getPcover())
+                        .placeholder(R.drawable.lion)
+                        .error(R.drawable.ic_action_person)
+                        .centerCrop()
+                        .into(ivCover);
+                tvRapidGallery.setText(post.getPnimages());
+                tvRapidJaime.setText(post.getPnlikes());
+                tvRapidJaime.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0,
+                        0,
+                        ds.child(LIKES).hasChild(myuid) ? R.drawable.ic_action_jaime:R.drawable.ic_action_unjaime,
+                        0);
+                tvRapidFavorite.setText(post.getPnfavorites());
+                tvRapidFavorite.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        ds.child(FAVORITES).hasChild(myuid) ? R.drawable.ic_action_favorite:R.drawable.ic_action_unfavorite,
+                        0);
+                tvRapidSignalement.setText(post.getPnsignales());
+                tvRapidWork.setText(post.getPntravaux());
 
                     /*initializeLikes(ds);
                     initializeFavorites(ds);
                     initializeSignales(ds);
                     initializeShares(ds);*/
-                }
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(ShowPostActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    };
+    private final ValueEventListener valuser = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            for(DataSnapshot ds : snapshot.getChildren()){
+                user = ds.getValue(User.class);
             }
         }
 
@@ -137,7 +163,10 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             uid = dataForActivity(this, "uid");
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
             initviews();
-            reference.child(POSTS).addValueEventListener(valpost);
+            Query query = reference.child(POSTS).orderByKey().equalTo(pid);
+            query.addValueEventListener(valpost);
+            Query uquery = reference.child(USERS).orderByKey().equalTo(myuid);
+            uquery.addValueEventListener(valuser);
         }else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -148,18 +177,26 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setSubtitle(getString(R.string.post_infos));
         // Image de couverture de la publication
         ivCover = findViewById(R.id.ivCover);
         // Liste des boutons d'action
-        tvJaime = findViewById(R.id.tvJaime);
-        tvFavorite = findViewById(R.id.tvFavorite);
-        ibPartage = findViewById(R.id.ibPartage);
-        tvSignalement = findViewById(R.id.tvSignalement);
+        tvRapidJaime = findViewById(R.id.tvRapidJaime);
+        //
+        tvRapidGallery = findViewById(R.id.tvRapidGallery);
+        //
+        tvRapidFavorite = findViewById(R.id.tvRapidFavorite);
+        //
+        ImageButton ibRapidPartage = findViewById(R.id.ibRapidPartage);
+        //
+        tvRapidSignalement = findViewById(R.id.tvRapidSignalement);
+        //
         tvNotifications = findViewById(R.id.tvNotifications);
+        //
         tvNotation = findViewById(R.id.tvNotations);
+        //
         tvPost = findViewById(R.id.tvPost);
-        tvWork = findViewById(R.id.tvWork);
+        //
+        tvRapidWork = findViewById(R.id.tvRapidWork);
         // Accès à la gallerie de la publication
         tvPhotos = findViewById(R.id.tvPhotos);
         // Accès aux commentaires de la publication
@@ -174,19 +211,23 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         tvGestionImmobiliere = findViewById(R.id.tvGestionImmobiliere);
         tvGestionImmobiliere.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
         // Suppression de la publication
-        tvSupprimer = findViewById(R.id.tvSupprimer);
+        TextView tvSupprimer = findViewById(R.id.tvSupprimer);
         tvSupprimer.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
         // Signalement de la publication
-        tvSignaler = findViewById(R.id.tvSignaler);
+        TextView tvSignaler = findViewById(R.id.tvSignaler);
         tvSignaler.setVisibility(myuid.equals(uid)?View.GONE:View.VISIBLE);
+        // Demander des informations liées à la publication
+        tvInformations = findViewById(R.id.tvInformations);
+        tvInformations.setVisibility(myuid.equals(uid)?View.VISIBLE:View.GONE);
 
         tvSupprimer.setOnClickListener(this);
         tvSignaler.setOnClickListener(this);
-        tvJaime.setOnClickListener(this);
-        tvFavorite.setOnClickListener(this);
-        ibPartage.setOnClickListener(this);
-        tvSignalement.setOnClickListener(this);
-        tvWork.setOnClickListener(this);
+        tvRapidJaime.setOnClickListener(this);
+        tvRapidGallery.setOnClickListener(this);
+        tvRapidFavorite.setOnClickListener(this);
+        ibRapidPartage.setOnClickListener(this);
+        tvRapidSignalement.setOnClickListener(this);
+        tvRapidWork.setOnClickListener(this);
         tvPhotos.setOnClickListener(this);
         tvCommentaires.setOnClickListener(this);
         tvNotifications.setOnClickListener(this);
@@ -194,6 +235,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         tvComparaison.setOnClickListener(this);
         tvEstimation.setOnClickListener(this);
         tvGestionImmobiliere.setOnClickListener(this);
+        tvInformations.setOnClickListener(this);
     }
 
     @Override
@@ -224,19 +266,22 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             });
             btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
             dialog.show();
-        } else if (id == R.id.tvJaime && !myuid.equals(uid)){
+        } else if (id == R.id.tvRapidJaime && !myuid.equals(uid)){
             aimerUnPost();
-        } else if (id == R.id.tvFavorite && !myuid.equals(uid)){
+        } else if (id == R.id.tvRapidFavorite && !myuid.equals(uid)){
             favoriteUnPost();
-        } else if (id == R.id.ibPartage && !myuid.equals(uid)){
+        } else if (id == R.id.ibRapidPartage && !myuid.equals(uid)){
             partagerUnPost();
-        } else if (id == R.id.tvSignalement){
+        } else if (id == R.id.tvRapidSignalement){
             signalerUnPost();
-        } else if (id == R.id.tvWork){
-
+        } else if (id == R.id.tvRapidWork){
+            workUnPost();
+        } else if (id == R.id.tvRapidGallery){
+            galleryUnPost();
         } else if (id == R.id.tvPhotos){
             Intent intent = new Intent(this, GalleryActivity.class);
             intent.putExtra("pid", pid);
+            intent.putExtra("uid", uid);
             startActivity(intent);
         } else if (id == R.id.tvCommentaires){
             Intent intent = new Intent(this, CommentsActivity.class);
@@ -247,9 +292,44 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("pid", pid);
             startActivity(intent);
         } else if (id == R.id.tvNotations){
-            Intent intent = new Intent(this, NotationsActivity.class);
-            intent.putExtra("pid", pid);
-            startActivity(intent);
+            final Dialog dialog = new Dialog(this);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_noter);
+            RatingBar rtNoterPost = dialog.findViewById(R.id.rtNoterPost);
+            Button btNoter = dialog.findViewById(R.id.btNoter);
+            Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
+            btNoter.setOnClickListener(v12 -> {
+                String note = String.valueOf(rtNoterPost.getProgress());
+                if (note.isEmpty()){
+                    Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_note), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                prepareNoteData(dialog, note);
+            });
+            btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
+            dialog.show();
+            /*if (myuid.equals(uid)){
+                Intent intent = new Intent(this, NotationsActivity.class);
+                intent.putExtra("pid", pid);
+                startActivity(intent);
+            }else {
+                final Dialog dialog = new Dialog(this);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_noter);
+                RatingBar rtNoterPost = dialog.findViewById(R.id.rtNoterPost);
+                Button btNoter = dialog.findViewById(R.id.btNoter);
+                Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
+                btNoter.setOnClickListener(v12 -> {
+                    String note = String.valueOf(rtNoterPost.getProgress());
+                    if (note.isEmpty()){
+                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_note), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    prepareNoteData(note);
+                });
+                btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
+                dialog.show();
+            }*/
         } else if (id == R.id.tvComparaison){
             Intent intent = new Intent(this, ComparaisonActivity.class);
             intent.putExtra("pid", pid);
@@ -262,29 +342,66 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(this, GestionImmobiliereActivity.class);
             intent.putExtra("pid", pid);
             startActivity(intent);
+        } else if (id == R.id.tvInformations){
+            /*Intent intent = new Intent(this, GestionImmobiliereActivity.class);
+            intent.putExtra("pid", pid);
+            startActivity(intent);*/
         }
     }
 
+    private void galleryUnPost() {
+
+    }
+
+    private void workUnPost() {
+
+    }
+
+    private void prepareNoteData(final Dialog dialog, String note) {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("nid", timestamp);
+        hashMap.put("nnote", note);
+        hashMap.put("uid", user.getUid());
+        hashMap.put("unoms", user.getUnoms());
+        hashMap.put("uavatar", user.getUavatar());
+        hashMap.put("ndate", timestamp);
+        saveNoteData(dialog,""+timestamp, hashMap);
+    }
+
+    private void saveNoteData(final Dialog dialog, String timestamp, HashMap<String, String> hashMap) {
+        reference.child(POSTS).child(pid).child("Notes").child(timestamp)
+                .setValue(hashMap)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(ShowPostActivity.this, ""+getString(R.string.add_note_success), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                });
+    }
+
     private void initializeFavorites(DataSnapshot ds) {
-        tvFavorite.setText(post.getPnfavorites());
+        tvRapidFavorite.setText(post.getPnfavorites());
         for (DataSnapshot dsnapshot : ds.child(LIKES).getChildren()){
             Favorite favorite = dsnapshot.getValue(Favorite.class);
             assert favorite != null;
             if (favorite.getFid().equals(myuid)){
                 favoriteProcess = true;
-                tvFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_favorite, 0);
+                tvRapidFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_favorite, 0);
             }
         }
     }
 
     private void initializeSignales(DataSnapshot ds) {
-        tvSignalement.setText(post.getPnsignales());
+        tvRapidSignalement.setText(post.getPnsignales());
         for (DataSnapshot dsnapshot : ds.child(LIKES).getChildren()){
             Signale signale = dsnapshot.getValue(Signale.class);
             assert signale != null;
             if (signale.getSid().equals(myuid)){
                 signaleProcess = true;
-                tvSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
+                tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
             }
         }
     }
@@ -300,7 +417,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                     if (snapshot.hasChild(myuid)){
                         postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(post.getPnlikes()) - 1));
                         likesRef.child(myuid).removeValue();
-                        tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unjaime, 0);
+                        tvRapidJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unjaime, 0);
                         Toast.makeText(ShowPostActivity.this, "Je n'aime pas cette publication", Toast.LENGTH_SHORT).show();
                     } else {
                         postsRef.child(pid).child("pnlikes").setValue(""+ (Integer.parseInt(post.getPnlikes()) + 1));
@@ -309,7 +426,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                         hashMap.put("lid", myuid);
                         hashMap.put("ldate", timestamp);
                         likesRef.child(myuid).setValue(hashMap);
-                        tvJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_jaime, 0);
+                        tvRapidJaime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_jaime, 0);
                         Toast.makeText(ShowPostActivity.this, "J'aime cette publication", Toast.LENGTH_SHORT).show();
                     }
                     likeProcess = false;
@@ -340,7 +457,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                     if (snapshot.hasChild(myuid)){
                         postsRef.child(pid).child("pnfavorites").setValue(""+ (Integer.parseInt(post.getPnfavorites()) - 1));
                         favoritesRef.child(uid).removeValue();
-                        tvFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unfavorite, 0);
+                        tvRapidFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unfavorite, 0);
                         Toast.makeText(ShowPostActivity.this, "Publication non favorite", Toast.LENGTH_SHORT).show();
                     } else {
                         postsRef.child(pid).child("pnfavorites").setValue(""+ (Integer.parseInt(post.getPnfavorites()) + 1));
@@ -349,7 +466,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                         hashMap.put("fid", uid);
                         hashMap.put("fdate", timestamp);
                         favoritesRef.child(uid).setValue(hashMap);
-                        tvFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_favorite, 0);
+                        tvRapidFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_favorite, 0);
                         Toast.makeText(ShowPostActivity.this, "Publication favorite", Toast.LENGTH_SHORT).show();
                     }
                     favoriteProcess = false;
@@ -367,7 +484,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         if (signaleProcess){
             reference.child(POSTS).child(pid).child("pnsignales").setValue(""+ (Integer.parseInt(post.getPnsignales()) - 1));
             reference.child(POSTS).child(pid).child(SIGNALES).child(uid).removeValue();
-            tvSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unsignaler, 0);
+            tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unsignaler, 0);
             Toast.makeText(ShowPostActivity.this, "Publication non signalée", Toast.LENGTH_SHORT).show();
             signaleProcess = false;
         }else {
@@ -377,7 +494,7 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             hashMap.put("lid", uid);
             hashMap.put("ldate", timestamp);
             reference.child(POSTS).child(pid).child(SIGNALES).child(uid).setValue(hashMap);
-            tvSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
+            tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
             Toast.makeText(ShowPostActivity.this, "Publication signalée", Toast.LENGTH_SHORT).show();
             signaleProcess = true;
         }

@@ -7,20 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.deone.abomo.R;
 import com.deone.abomo.models.Image;
-import com.deone.abomo.models.Post;
 import com.deone.abomo.outils.Alistener;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -50,7 +45,13 @@ public class AdapterGallerie extends RecyclerView.Adapter<AdapterGallerie.MyHold
         String description = imageList.get(position).getIdescription();
         String date = imageList.get(position).getIdate();
 
-        Picasso.get().load(cover).placeholder(R.drawable.lion).into(holder.ivGallery);
+        Glide.with(context)
+                .load(cover)
+                .placeholder(R.drawable.lion)
+                .error(R.drawable.ic_action_person)
+                .centerCrop()
+                .into(holder.ivGallery);
+
         holder.tvTitre.setText(titre);
         holder.tvDescription.setText(description);
         holder.tvDate.setText(formatHeureJourAn(""+date));

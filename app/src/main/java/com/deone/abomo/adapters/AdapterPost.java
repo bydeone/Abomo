@@ -1,8 +1,6 @@
 package com.deone.abomo.adapters;
 
-import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
 import static com.deone.abomo.outils.MethodTools.formatHeureJourAn;
-import static com.deone.abomo.outils.MethodTools.timestampToString;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,17 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.deone.abomo.R;
 import com.deone.abomo.models.Post;
 import com.deone.abomo.outils.Alistener;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -56,18 +52,20 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
         String nom = postList.get(position).getUnoms();
         String date = postList.get(position).getPdate();
 
-        Picasso.get().load(cover).placeholder(R.drawable.lion).into(holder.ivCover, new Callback() {
-            @Override
-            public void onSuccess() {
-                holder.pbLoad.setVisibility(View.GONE);
-            }
+        Glide.with(context)
+                .load(avatar)
+                .placeholder(R.drawable.lion)
+                .error(R.drawable.ic_action_person)
+                .centerCrop()
+                .into(holder.ivAvatar);
 
-            @Override
-            public void onError(Exception e) {
-                Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        Picasso.get().load(avatar).placeholder(R.drawable.lion).into(holder.ivAvatar);
+        Glide.with(context)
+                .load(cover)
+                .placeholder(R.drawable.lion)
+                .error(R.drawable.ic_action_person)
+                .centerCrop()
+                .into(holder.ivCover);
+
         holder.tvTitre.setText(HtmlCompat.fromHtml(titre, 0));
         holder.tvDescription.setText(HtmlCompat.fromHtml(description, 0));
         holder.tvVues.setText(context.getString(R.string.nbre_vues, vues));
@@ -93,7 +91,6 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
             implements View.OnClickListener,
             View.OnLongClickListener {
 
-        ProgressBar pbLoad;
         ImageView ivCover;
         ImageView ivAvatar;
         TextView tvTitre;
@@ -107,7 +104,6 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.MyHolder> {
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            pbLoad = itemView.findViewById(R.id.pbLoad);
             ivCover = itemView.findViewById(R.id.ivCover);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             tvTitre = itemView.findViewById(R.id.tvTitre);

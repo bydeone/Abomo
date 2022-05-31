@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.deone.abomo.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,7 +57,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 assert user != null;
                 tvNoms.setText(user.getUnoms());
                 tvTelephone.setText(user.getUtelephone());
-                //Picasso --- ivAvatar
+                Glide.with(SettingsActivity.this)
+                        .load(user.getUavatar())
+                        .placeholder(R.drawable.lion)
+                        .error(R.drawable.ic_action_person)
+                        .centerCrop()
+                        .into(ivAvatar);
             }
         }
 

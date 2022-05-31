@@ -7,21 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.deone.abomo.R;
 import com.deone.abomo.models.Commentaire;
 import com.deone.abomo.outils.Alistener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,7 +55,13 @@ public class AdapterCommentaire extends RecyclerView.Adapter<AdapterCommentaire.
         String uid = commentaireList.get(position).getUid();
 
         holder.ivAvatar.setVisibility(this.myuid.equals(uid) ? View.GONE:View.VISIBLE);
-        Picasso.get().load(avatar).placeholder(R.drawable.lion).into(holder.ivAvatar);
+
+        Glide.with(context)
+                .load(avatar)
+                .placeholder(R.drawable.lion)
+                .error(R.drawable.ic_action_person)
+                .centerCrop()
+                .into(holder.ivAvatar);
 
         holder.tvMessage.setText(HtmlCompat.fromHtml(message, 0));
         holder.tvLikes.setText(jaimes);

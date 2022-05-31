@@ -9,6 +9,7 @@ public class ConstantsTools {
     public static final int IMAGE_PICK_CAMERA_CODE = 500;
 
     public static final String FORMAT_DATE_FULL_FR = "EEEE dd MMMM yyyy";
+    public static final String FORMAT_DATE_SIMPLE = "dd MMMM yyyy";
 
     public static final String DATABASE = "Abomo";
     public static final String USERS = "Users";
