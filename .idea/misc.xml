@@ -38,6 +38,7 @@
         <entry key="app/src/main/res/layout/item_immeuble.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/item_locataire.xml" value="0.2625" />
         <entry key="app/src/main/res/layout/item_loyer.xml" value="0.2625" />
+        <entry key="app/src/main/res/layout/item_note.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.33" />
         <entry key="app/src/main/res/menu/frag_commentaire.xml" value="0.26145833333333335" />
         <entry key="app/src/main/res/menu/frag_home.xml" value="0.25" />
