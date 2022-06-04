@@ -5,6 +5,8 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
 import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_FULL_FR;
+import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_SIMPLE;
+import static com.deone.abomo.outils.ConstantsTools.FORMAT_DATE_SIMPLE_EN;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 
@@ -18,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -59,49 +62,41 @@ public class MethodTools {
                         ""+FORMAT_DATE_FULL_FR,
                         ""+date));
     }
+
     public static String dataForActivity(Activity activity, String name) {
         return activity.getIntent().getStringExtra(name);
     }
-    public static void initAppPreferences(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
+
+    public static void setLocal(Activity activity, String langCode) {
+        Locale locale = new Locale(langCode.toLowerCase());
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration conf = resources.getConfiguration();
+        conf.setLocale(locale);
+        resources.updateConfiguration(conf, resources.getDisplayMetrics());
+    }
+
+    public static void appPreferences(Activity activity) {
+        SharedPreferences preferences = activity.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
         boolean isTheme = preferences.getBoolean("THEME", false);
         if (isTheme){
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         }else {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
         }
+        String langCode = preferences.getString("LANGUAGE", ""+Locale.getDefault().getLanguage());
+        setLocal(activity, langCode);
         saveAppThemePreference(preferences, isTheme);
-        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
-        if (isLanguage){
-
-        }else {
-
-        }
-        saveAppLanguagePreference(preferences, isLanguage);
+        saveAppLanguagePreference(preferences, langCode);
     }
 
-    public static void loadSystemPreference(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
-        boolean isTheme = preferences.getBoolean("THEME", false);
-        if (isTheme){
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-        }
-        boolean isLanguage = preferences.getBoolean("LANGUAGE", false);
-        if (isLanguage){
-
-        }else {
-
-        }
-    }
     public static boolean isNightMode(Context context) {
         int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
     }
-    public static void saveAppLanguagePreference(SharedPreferences preferences, boolean isChecked) {
+    public static void saveAppLanguagePreference(SharedPreferences preferences, String langCode) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("LANGUAGE", isChecked);
+        editor.putString("LANGUAGE", langCode);
         editor.apply();
     }
     public static void saveAppThemePreference(SharedPreferences preferences, boolean isChecked) {
@@ -397,6 +392,13 @@ public class MethodTools {
             e.printStackTrace();
         }
         return chemin.getAbsolutePath();
+    }
+
+    public static String timestampToString(Context context, String date) {
+        Locale current = context.getResources().getConfiguration().locale;
+        Calendar cal = Calendar.getInstance(current == Locale.FRANCE ? Locale.FRANCE : Locale.ENGLISH);
+        cal.setTimeInMillis(Long.parseLong(date));
+        return DateFormat.format(current == Locale.FRANCE ? FORMAT_DATE_SIMPLE : FORMAT_DATE_SIMPLE_EN, cal).toString();
     }
 
 }

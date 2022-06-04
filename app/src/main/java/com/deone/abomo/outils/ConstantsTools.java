@@ -10,6 +10,7 @@ public class ConstantsTools {
 
     public static final String FORMAT_DATE_FULL_FR = "EEEE dd MMMM yyyy";
     public static final String FORMAT_DATE_SIMPLE = "dd MMMM yyyy";
+    public static final String FORMAT_DATE_SIMPLE_EN = "MMMM dd yyyy";
 
     public static final String DATABASE = "Abomo";
     public static final String USERS = "Users";

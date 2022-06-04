@@ -4,10 +4,10 @@ import static com.deone.abomo.outils.ConstantsTools.CAMERA_REQUEST_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_CAMERA_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_GALLERY_CODE;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.creerUnCompte;
-import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
 
@@ -18,7 +18,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -39,14 +42,35 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText edtvUtilisateur;
     private EditText edtvMotdepasse;
     private EditText edtvConfmotdepasse;
+    private Button btSignUp;
     private Uri imageUri;
     private String[] cameraPermissions;
     private String[] storagePermissions;
+    private final TextWatcher twUser = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String nom = edtvNons.getText().toString().trim();
+            String telephone = edtvTelephone.getText().toString().trim();
+            String login = edtvUtilisateur.getText().toString().trim();
+            String motdepasse = edtvMotdepasse.getText().toString().trim();
+            btSignUp.setEnabled(!nom.isEmpty() && !telephone.isEmpty() && !login.isEmpty() && ! motdepasse.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference(this);
+        appPreferences(this);
         setContentView(R.layout.activity_sign_up);
         checkuser();
     }
@@ -71,8 +95,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         cameraPermissions = new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        findViewById(R.id.btSignUp).setOnClickListener(this);
+        btSignUp = findViewById(R.id.btSignUp);
+        btSignUp.setOnClickListener(this);
         ivAvatar.setOnClickListener(this);
+        edtvNons.addTextChangedListener(twUser);
+        edtvMotdepasse.addTextChangedListener(twUser);
+        edtvUtilisateur.addTextChangedListener(twUser);
+        edtvTelephone.addTextChangedListener(twUser);
     }
 
     @Override

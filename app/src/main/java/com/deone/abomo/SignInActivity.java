@@ -2,26 +2,21 @@ package com.deone.abomo;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.connecterUtilisateur;
-import static com.deone.abomo.outils.MethodTools.initAppPreferences;
 import static com.deone.abomo.outils.MethodTools.isNightMode;
 import static com.deone.abomo.outils.MethodTools.saveAppThemePreference;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.content.res.AppCompatResources;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +30,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initAppPreferences(this);
+        appPreferences(this);
         setContentView(R.layout.activity_sign_in);
         checkuser();
     }

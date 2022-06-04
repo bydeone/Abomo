@@ -15,11 +15,14 @@
 
     <RatingBar
         android:id="@+id/rtNoterPost"
-        android:layout_below="@+id/tvMaNote"
-        android:numStars="10"
-        android:stepSize="0.1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMaNote"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:stepSize="0.1" />
 
     <Button
         android:id="@+id/btNoter"

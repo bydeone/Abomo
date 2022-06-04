@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5dp">
+    android:background="?attr/showBackground"
+    android:padding="3dp"
+    android:layout_margin="3dp">
+
+    <TextView
+        android:id="@+id/tvNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="47"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        android:textStyle="bold" />
 
     <RelativeLayout
-        android:background="?attr/showBackground"
-        android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/rlTop"
+        android:padding="3dp"
+        android:layout_below="@+id/tvNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivCover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
             android:contentDescription="@string/couverture_de_l_immeuble"
             android:scaleType="centerCrop"
             android:src="@drawable/lion" />
 
         <TextView
             android:id="@+id/tvUserNoms"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivCover"
-            android:textSize="18sp"
-            android:padding="10dp"
-            android:gravity="center"
-            android:text="47 vues"
+            android:layout_toEndOf="@+id/ivCover"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="11sp"
+            android:text="Nom utilisateur"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <RatingBar
-            android:id="@+id/rbNotation"
-            android:layout_below="@+id/tvUserNoms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

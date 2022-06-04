@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostActivity">
+
+    <RelativeLayout
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/pageBackground">
+
+        <RelativeLayout
+            android:id="@+id/rlPostDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/rlBackground">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/lion"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/tvPostTitre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivAvatar"
+                android:gravity="center"
+                android:text="Titre de la publication"
+                android:textColor="?attr/itemBackground"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPostVues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPostTitre"
+                android:gravity="center"
+                android:text="Publié le 14 Mai 2022 - vue par 18 personnes"
+                android:textColor="?attr/itemBackground" />
+
+            <LinearLayout
+                android:id="@+id/llActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPostVues"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tvRapidGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_galery" />
+
+                <TextView
+                    android:id="@+id/tvRapidWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_work" />
+
+                <TextView
+                    android:id="@+id/tvRapidJaime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="13"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_jaime" />
+
+                <TextView
+                    android:id="@+id/tvRapidFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="44"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_favorite" />
+
+                <TextView
+                    android:id="@+id/tvRapidSignalement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="13"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_signale" />
+
+                <TextView
+                    android:id="@+id/tvRapidNote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="17"
+                    android:textColor="?attr/itemBackground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:drawableTopCompat="@drawable/ic_action_custom_note" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/llDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlPostDetails"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tvPostUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Nom du propriétaire de la publication"
+                android:textColor="?attr/itemBackground"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPostDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description_immeuble"
+                android:textColor="?attr/itemBackground" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swCommentaires"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llDescription"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/custom_commentaires"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swCommentaires"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/custom_notifications"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvVisibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swNotifications"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/photos_visibility"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_image" />
+
+        <TextView
+            android:id="@+id/tvNotations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvVisibility"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/notation"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_note" />
+
+        <TextView
+            android:id="@+id/tvComparaison"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvNotations"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/comparaison"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_compare" />
+
+        <TextView
+            android:id="@+id/tvEstimation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvComparaison"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/estimation"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_estimer" />
+
+        <TextView
+            android:id="@+id/tvGestionImmobiliere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEstimation"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/gestion_immobiliere"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_gestion" />
+
+        <TextView
+            android:id="@+id/tvInformations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGestionImmobiliere"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:padding="20sp"
+            android:text="@string/informations_publication"
+            android:textColor="?attr/itemBackground"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_action_infos" />
+
+        <TextView
+            android:id="@+id/tvSignaler"
+            android:padding="20sp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="3dp"
+            android:background="?attr/rlBackground"
+            android:textColor="?attr/appRouge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvInformations"
+            android:text="@string/signaler_this_post"
+            app:drawableEndCompat="@drawable/ic_action_signaler" />
+
+        <TextView
+            android:id="@+id/tvSupprimer"
+            android:padding="20sp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignaler"
+            android:background="?attr/rlBackground"
+            android:text="@string/delete_this_post"
+            android:textColor="?attr/appRouge"
+            app:drawableEndCompat="@drawable/ic_action_supprimer" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

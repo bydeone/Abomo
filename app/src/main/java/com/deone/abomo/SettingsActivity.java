@@ -4,10 +4,11 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.USERS;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.deconnecter;
-import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.saveAppLanguagePreference;
 import static com.deone.abomo.outils.MethodTools.saveAppThemePreference;
+import static com.deone.abomo.outils.MethodTools.setLocal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,9 +17,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -36,19 +39,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private DatabaseReference reference;
+    private SharedPreferences preferences;
     private String uid;
     private String myuid;
     private boolean isTheme;
-    private boolean isLanguage;
+    private String langCode;
     private ImageView ivAvatar;
     private TextView tvNoms;
     private TextView tvTelephone;
+    private TextView tvLanguage;
     private TextView tvSignout;
     private SwitchCompat swTheme;
-    private SwitchCompat swLanguage;
     private final ValueEventListener valuser = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,25 +81,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        systemPreference();
+        appPreferences(this);
         setContentView(R.layout.activity_settings);
         checkuser();
-    }
-
-    public void systemPreference() {
-        SharedPreferences preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
-        isTheme = preferences.getBoolean("THEME", false);
-        if (isTheme){
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-        }
-        isLanguage = preferences.getBoolean("LANGUAGE", false);
-        if (isLanguage){
-
-        }else {
-
-        }
     }
 
     private void checkuser() {
@@ -102,6 +92,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             uid = getIntent().getStringExtra("uid");
             myuid = fuser.getUid();
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
+            preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
+            isTheme = preferences.getBoolean("THEME", false);
+            langCode = preferences.getString("LANGUAGE", "fr");
             initviews();
         }else{
             startActivity(new Intent(this, MainActivity.class));
@@ -116,17 +109,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         swTheme = findViewById(R.id.swTheme);
         swTheme.setChecked(isTheme);
         swTheme.setText(getString(R.string.theme_mode, isTheme?getString(R.string.mode_dark):getString(R.string.mode_day)));
-        swLanguage = findViewById(R.id.swLanguage);
-        swLanguage.setChecked(isLanguage);
+        tvLanguage = findViewById(R.id.tvLanguage);
+        tvLanguage.setText(getString(R.string.language_mode, langCode.equals("fr")?getString(R.string.francais):getString(R.string.anglais)));
         reference.child(USERS).orderByKey().equalTo(myuid).addListenerForSingleValueEvent(valuser);
         findViewById(R.id.tvSignout).setOnClickListener(this);
+        tvLanguage.setOnClickListener(this);
         swTheme.setOnCheckedChangeListener(this);
-        swLanguage.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvSignout){
+        int id = v.getId();
+        if (id == R.id.tvSignout){
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.app_name))
                     .setMessage(getString(R.string.sign_out))
@@ -134,12 +128,35 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     .setPositiveButton(android.R.string.yes,
                             (dialog, which) -> deconnecter(this))
                     .create().show();
+        }else if (id == R.id.tvLanguage){
+            String[] languages = {getString(R.string.select_language), getString(R.string.anglais), getString(R.string.francais)};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.choose_language));
+            builder.setItems(languages, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (languages[which].equals(getString(R.string.select_language))){
+                        Toast.makeText(SettingsActivity.this, ""+getString(R.string.no_language_selected), Toast.LENGTH_SHORT).show();
+                    } else if (languages[which].equals(getString(R.string.anglais))){
+                        saveAppLanguagePreference(preferences, "en");
+                        setLocal(SettingsActivity.this, "en");
+                        finish();
+                        startActivity(getIntent());
+                    }else if (languages[which].equals(getString(R.string.francais))){
+                        saveAppLanguagePreference(preferences, "fr");
+                        setLocal(SettingsActivity.this, "fr");
+                        finish();
+                        startActivity(getIntent());
+                    }
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        SharedPreferences preferences = getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
         if (buttonView.getId() == R.id.swTheme){
             if (isChecked){
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
@@ -148,17 +165,24 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
             swTheme.setText(getString(R.string.theme_mode, isChecked?getString(R.string.mode_dark):getString(R.string.mode_day)));
             saveAppThemePreference(preferences, isChecked);
-        }else if (buttonView.getId() == R.id.swLanguage){
-            if (isChecked){
-
-            }else {
-
-            }
-            saveAppLanguagePreference(preferences, isChecked);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+        finish();
+    }
 
+    /*private void setLocal(Activity activity, String langCode) {
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration conf = resources.getConfiguration();
+        conf.setLocale(locale);
+        resources.updateConfiguration(conf, resources.getDisplayMetrics());
+    }*/
 
 
 }

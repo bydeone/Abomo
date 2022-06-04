@@ -16,4 +16,11 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        tools:listitem="@layout/item_note" />
+
 </RelativeLayout>

@@ -6,4 +6,6 @@
     <attr name="tvBackground" format="reference" />
     <attr name="itemBackground" format="reference" />
     <attr name="showBackground" format="reference" />
+    <attr name="rlBackground" format="reference" />
+    <attr name="appRouge" format="reference" />
 </resources>

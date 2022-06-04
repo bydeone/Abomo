@@ -13,9 +13,58 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/app_name" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/lion"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <RelativeLayout
+                android:layout_toEndOf="@+id/ivAvatar"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPostTitre"
+                    android:text="Titre du post"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvPostInfos"
+                    android:layout_below="@+id/tvPostTitre"
+                    android:text="Informations du post"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvPost"
+        android:layout_above="@+id/rlAddComment"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,104 +160,55 @@
 
             <TextView
                 android:id="@+id/tvPost"
-                style="@style/tv_settings_trois"
+                android:padding="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llActions"
+                android:background="?attr/rlBackground"
+                android:textColor="?attr/itemBackground"
                 android:text="@string/description_immeuble" />
 
-            <TextView
-                android:id="@+id/tvPhotos"
-                style="@style/tv_settings_one"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvPost"
-                android:text="@string/gallery"
-                app:drawableEndCompat="@drawable/ic_action_gallery" />
-
-            <TextView
-                android:id="@+id/tvCommentaires"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvPhotos"
-                android:text="@string/commentaires"
-                app:drawableEndCompat="@drawable/ic_action_uncomment" />
-
-            <TextView
-                android:id="@+id/tvNotifications"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCommentaires"
-                android:text="@string/notifications"
-                app:drawableEndCompat="@drawable/ic_action_notification" />
-
-            <TextView
-                android:id="@+id/tvNotations"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNotifications"
-                android:text="@string/notation"
-                app:drawableEndCompat="@drawable/ic_action_note" />
-
-            <TextView
-                android:id="@+id/tvComparaison"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNotations"
-                android:text="@string/comparaison"
-                app:drawableEndCompat="@drawable/ic_action_compare" />
-
-            <TextView
-                android:id="@+id/tvEstimation"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvComparaison"
-                android:text="@string/estimation"
-                app:drawableEndCompat="@drawable/ic_action_estimer" />
-
-            <TextView
-                android:id="@+id/tvGestionImmobiliere"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEstimation"
-                android:text="@string/gestion_immobiliere"
-                app:drawableEndCompat="@drawable/ic_action_gestion" />
-
-            <TextView
-                android:id="@+id/tvInformations"
-                style="@style/tv_settings_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvGestionImmobiliere"
-                android:text="@string/informations_publication"
-                app:drawableEndCompat="@drawable/ic_action_infos" />
-
-            <TextView
-                android:id="@+id/tvSignaler"
-                style="@style/tv_settings_two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvInformations"
-                android:text="@string/signaler_this_post"
-                app:drawableEndCompat="@drawable/ic_action_signaler" />
-
-            <TextView
-                android:id="@+id/tvSupprimer"
-                style="@style/tv_settings_two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvSignaler"
-                android:text="@string/delete_this_post"
-                app:drawableEndCompat="@drawable/ic_action_supprimer" />
+                tools:listitem="@layout/item_comment" />
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlAddComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ibComment"
+            android:background="@color/white"
+            android:hint="@string/votre_commentaire"
+            android:inputType="text"
+            android:padding="20sp" />
+
+        <ImageButton
+            android:id="@+id/ibComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/send_comment"
+            android:padding="10dp"
+            android:src="@drawable/ic_action_send" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

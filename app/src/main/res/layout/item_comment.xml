@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:padding="5dp"
     android:layout_marginTop="3dp"
-    android:background="?attr/itemBackground"
+    android:background="?attr/rlBackground"
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/tvNoms"
                 android:text="Jonh DOE"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemBackground"
                 android:layout_weight="1"
                 android:textStyle="bold"
                 android:gravity="start"
@@ -43,7 +43,7 @@
                 android:text="08/05/2022"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -56,47 +56,47 @@
             android:layout_below="@+id/llOne"
             android:padding="3dp"
             android:text="En plus de 5 ans d’expérience j’ai pu faire valoir mon savoir-faire technique. J’ai aussi acquis des connaissances importantes en management et j’ai pu implémenter des méthodologies et des techniques nouvelles de travail."
-            android:textColor="@color/black" />
+            android:textColor="?attr/itemBackground" />
 
         <LinearLayout
             android:id="@+id/llTwo"
-            android:layout_below="@+id/tvMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMessage"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvComments"
-                android:text="35"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="35"
+                android:textColor="?attr/itemBackground"
                 app:drawableEndCompat="@drawable/ic_action_uncomment" />
 
             <TextView
                 android:id="@+id/tvLikes"
-                android:text="35"
-                android:textColor="@color/black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:text="35"
+                android:textColor="?attr/itemBackground"
                 app:drawableEndCompat="@drawable/ic_action_unjaime" />
 
             <TextView
                 android:id="@+id/tvSignales"
-                android:text="35"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:layout_marginEnd="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="35"
+                android:textColor="?attr/itemBackground"
                 app:drawableEndCompat="@drawable/ic_action_unsignaler" />
 
         </LinearLayout>

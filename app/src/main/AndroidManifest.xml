@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Abomo">
         <activity
+            android:name=".PostActivity"
+            android:exported="false" />
+        <activity
             android:name=".GestionImmobiliereActivity"
             android:exported="false" />
         <activity

@@ -19,4 +19,6 @@
     <color name="item_description_background_nuit">#99556575</color>
     <color name="item_field_back_jour">#ffeeddcc</color>
     <color name="item_field_back_nuit">#aabbccdd</color>
+    <color name="rl_background_jour">#33000000</color>
+    <color name="rl_background_nuit">#33000000</color>
 </resources>

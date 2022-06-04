@@ -3,6 +3,7 @@ package com.deone.abomo;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
 
 import android.content.Intent;
@@ -88,6 +89,7 @@ public class GalleryActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appPreferences(this);
         setContentView(R.layout.activity_gallery);
         checkuser();
     }

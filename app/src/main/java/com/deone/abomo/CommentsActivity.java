@@ -4,6 +4,7 @@ import static com.deone.abomo.outils.ConstantsTools.COMMENTS;
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.USERS;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
 
 import androidx.annotation.NonNull;
@@ -108,6 +109,7 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appPreferences(this);
         setContentView(R.layout.activity_comments);
         checkuser();
     }

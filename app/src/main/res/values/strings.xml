@@ -105,10 +105,10 @@
     <string name="estimation">Estimer</string>
     <string name="gestion_immobiliere">Gestion immobilière</string>
     <string name="all_comments">Tous les commentaires</string>
-    <string name="favory_comment">Commentaires de mes favories</string>
-    <string name="signale_comment">Commentaires de mes signalements</string>
-    <string name="share_comment">Commentaires de mes partages</string>
-    <string name="jaime_comment">Commentaires de mes j\'aimes</string>
+    <string name="favory_comment">Les commentaires de mes favories</string>
+    <string name="signale_comment">Les commentaires de mes signalements</string>
+    <string name="share_comment">Les commentaires de mes partages</string>
+    <string name="jaime_comment">Les commentaires de mes j\'aimes</string>
     <string name="all_gallery">Gallerie ouverte à tous</string>
     <string name="abonnes_gallery">Gallerie ouverte aux abonnés</string>
     <string name="jaime_gallery">Gallerie ouverte à ceux qui aiment la publication</string>
@@ -119,4 +119,18 @@
     <string name="n_photos">Il y\'a %s dans la gallérie</string>
     <string name="add_note_success">Note ajoutée avec succès</string>
     <string name="update_note_success">Note mise à jour avec succès</string>
+    <string name="app_language">Language (Francais)</string>
+    <string name="select_language">Sellectionner une langue</string>
+    <string name="anglais">Anglais</string>
+    <string name="francais">Français</string>
+    <string name="choose_language">Choisir une langue</string>
+    <string name="no_language_selected">Aucune langue sellectionnée</string>
+    <string name="language_mode">Langue (%s)</string>
+    <string name="info_post">Infos publication</string>
+    <string name="get_notifications">Recevoir des notifications pour</string>
+    <string name="custom_commentaires">Personnaliser les commentaires</string>
+    <string name="custom_notifications">Personalliser les notifications</string>
+    <string name="photos_visibility">Visibilité de la gallerie</string>
+    <string name="publish_at">Publié le %s</string>
+    <string name="publish_at_by">Publié le %s - Vue par %s personnes</string>
 </resources>

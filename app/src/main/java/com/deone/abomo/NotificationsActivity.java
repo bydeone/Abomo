@@ -1,5 +1,7 @@
 package com.deone.abomo;
 
+import static com.deone.abomo.outils.MethodTools.appPreferences;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,6 +18,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appPreferences(this);
         setContentView(R.layout.activity_notifications);
     }
 

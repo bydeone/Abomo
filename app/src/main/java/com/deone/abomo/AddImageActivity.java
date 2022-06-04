@@ -7,6 +7,7 @@ import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_CAMERA_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_GALLERY_CODE;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
@@ -57,6 +58,7 @@ public class AddImageActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appPreferences(this);
         setContentView(R.layout.activity_add_image);
         checkuser();
     }

@@ -19,6 +19,8 @@
         <item name="tvBackground">@color/field_back_jour</item>
         <item name="itemBackground">@color/item_field_back_jour</item>
         <item name="showBackground">@color/item_description_background_jour</item>
+        <item name="rlBackground">@color/rl_background_jour</item>
+        <item name="appRouge">@color/rouge_jour</item>
     </style>
     <style name="tv_settings_one">
         <item name="android:background">?attr/itemBackground</item>

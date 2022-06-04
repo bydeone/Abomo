@@ -6,17 +6,12 @@ import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_CAMERA_CODE;
 import static com.deone.abomo.outils.ConstantsTools.IMAGE_PICK_GALLERY_CODE;
 import static com.deone.abomo.outils.ConstantsTools.STORAGE_REQUEST_CODE;
 import static com.deone.abomo.outils.ConstantsTools.USERS;
+import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.checkCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.checkStoragePermissions;
 import static com.deone.abomo.outils.MethodTools.creerUnPost;
-import static com.deone.abomo.outils.MethodTools.loadSystemPreference;
 import static com.deone.abomo.outils.MethodTools.requestCameraPermissions;
 import static com.deone.abomo.outils.MethodTools.requestStoragePermissions;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.ContentValues;
@@ -25,12 +20,20 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import com.deone.abomo.models.Post;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.deone.abomo.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddPostActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView ivCover;
     private EditText edtvTitre;
@@ -65,11 +68,27 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(AddPostActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
+    private final TextWatcher twTitre = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Toast.makeText(AddPostActivity.this, "Yes, yes - " + s, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            //edtvTitre.removeTextChangedListener(twTitre);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSystemPreference(this);
+        appPreferences(this);
         setContentView(R.layout.activity_add_post);
         checkuser();
     }
@@ -96,6 +115,7 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         findViewById(R.id.btAddImmeuble).setOnClickListener(this);
         ivCover.setOnClickListener(this);
+        edtvTitre.addTextChangedListener(twTitre);
     }
 
     @Override
@@ -238,4 +258,5 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         creerUnPost(this, imageUri, ""+titre, ""+description,
                 ""+myuid, ""+user.getUnoms(), ""+user.getUavatar());
     }
+
 }
