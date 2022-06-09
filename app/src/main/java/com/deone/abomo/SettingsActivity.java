@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
@@ -49,10 +51,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private String myuid;
     private boolean isTheme;
     private String langCode;
+    private Toolbar toolbar;
     private ImageView ivAvatar;
     private TextView tvNoms;
     private TextView tvTelephone;
     private TextView tvLanguage;
+    private TextView tvXpert;
     private TextView tvSignout;
     private SwitchCompat swTheme;
     private final ValueEventListener valuser = new ValueEventListener() {
@@ -63,12 +67,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 assert user != null;
                 tvNoms.setText(user.getUnoms());
                 tvTelephone.setText(user.getUtelephone());
-                Glide.with(SettingsActivity.this)
+                Glide.with(getApplicationContext())
                         .load(user.getUavatar())
                         .placeholder(R.drawable.lion)
                         .error(R.drawable.ic_action_person)
                         .centerCrop()
                         .into(ivAvatar);
+                toolbar.setTitle(user.getUnoms());
             }
         }
 
@@ -96,6 +101,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             isTheme = preferences.getBoolean("THEME", false);
             langCode = preferences.getString("LANGUAGE", "fr");
             initviews();
+            Query query = reference.child(USERS).orderByKey().equalTo(myuid);
+            query.addListenerForSingleValueEvent(valuser);
         }else{
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -103,17 +110,21 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initviews() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setSubtitle(getString(R.string.param_tres));
         ivAvatar = findViewById(R.id.ivAvatar);
         tvNoms = findViewById(R.id.tvNoms);
         tvTelephone = findViewById(R.id.tvTelephone);
+        tvXpert = findViewById(R.id.tvXpert);
         swTheme = findViewById(R.id.swTheme);
         swTheme.setChecked(isTheme);
         swTheme.setText(getString(R.string.theme_mode, isTheme?getString(R.string.mode_dark):getString(R.string.mode_day)));
         tvLanguage = findViewById(R.id.tvLanguage);
         tvLanguage.setText(getString(R.string.language_mode, langCode.equals("fr")?getString(R.string.francais):getString(R.string.anglais)));
-        reference.child(USERS).orderByKey().equalTo(myuid).addListenerForSingleValueEvent(valuser);
         findViewById(R.id.tvSignout).setOnClickListener(this);
         tvLanguage.setOnClickListener(this);
+        tvXpert.setOnClickListener(this);
         swTheme.setOnCheckedChangeListener(this);
     }
 
@@ -121,38 +132,66 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.tvSignout){
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.app_name))
-                    .setMessage(getString(R.string.sign_out))
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(android.R.string.yes,
-                            (dialog, which) -> deconnecter(this))
-                    .create().show();
+            appDeconnexxion();
+        } else if (id == R.id.tvXpert){
+            openDialogModeExpert();
         }else if (id == R.id.tvLanguage){
-            String[] languages = {getString(R.string.select_language), getString(R.string.anglais), getString(R.string.francais)};
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.choose_language));
-            builder.setItems(languages, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (languages[which].equals(getString(R.string.select_language))){
-                        Toast.makeText(SettingsActivity.this, ""+getString(R.string.no_language_selected), Toast.LENGTH_SHORT).show();
-                    } else if (languages[which].equals(getString(R.string.anglais))){
-                        saveAppLanguagePreference(preferences, "en");
-                        setLocal(SettingsActivity.this, "en");
-                        finish();
-                        startActivity(getIntent());
-                    }else if (languages[which].equals(getString(R.string.francais))){
-                        saveAppLanguagePreference(preferences, "fr");
-                        setLocal(SettingsActivity.this, "fr");
-                        finish();
-                        startActivity(getIntent());
-                    }
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
+            showSelectLanguageDialog();
         }
+    }
+
+    private void showSelectLanguageDialog() {
+        String[] languages = {getString(R.string.select_language), getString(R.string.anglais), getString(R.string.francais)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.choose_language));
+        builder.setItems(languages, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (languages[which].equals(getString(R.string.select_language))){
+                    Toast.makeText(SettingsActivity.this, ""+getString(R.string.no_language_selected), Toast.LENGTH_SHORT).show();
+                } else if (languages[which].equals(getString(R.string.anglais))){
+                    saveAppLanguagePreference(preferences, "en");
+                    setLocal(SettingsActivity.this, "en");
+                    finish();
+                    startActivity(getIntent());
+                }else if (languages[which].equals(getString(R.string.francais))){
+                    saveAppLanguagePreference(preferences, "fr");
+                    setLocal(SettingsActivity.this, "fr");
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void appDeconnexxion() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.app_name))
+                .setMessage(getString(R.string.sign_out))
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes,
+                        (dialog, which) -> deconnecter(this))
+                .create().show();
+    }
+
+    private void openDialogModeExpert() {
+        final CharSequence[] items = {"Zone", "Mercuriale"};
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(getString(R.string.choose_expert));
+        dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0){
+                    // pour les zone
+                }else if (which == 1){
+                    startActivity(new Intent(SettingsActivity.this, MercurialeActivity.class));
+                }
+            }
+
+        });
+        dialogBuilder.create().show();
     }
 
     @Override
@@ -167,22 +206,5 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             saveAppThemePreference(preferences, isChecked);
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-        finish();
-    }
-
-    /*private void setLocal(Activity activity, String langCode) {
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-        Resources resources = activity.getResources();
-        Configuration conf = resources.getConfiguration();
-        conf.setLocale(locale);
-        resources.updateConfiguration(conf, resources.getDisplayMetrics());
-    }*/
-
 
 }

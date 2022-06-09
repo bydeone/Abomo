@@ -5,7 +5,7 @@
         android:id="@+id/rechercher"
         android:icon="@drawable/ic_action_rechercher"
         android:title="@string/rechercher"
-        app:actionViewClass="android.widget.SearchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/parametres"

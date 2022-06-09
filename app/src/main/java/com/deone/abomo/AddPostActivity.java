@@ -20,19 +20,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AbsListView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.deone.abomo.models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,46 +42,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddPostActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddPostActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ImageView ivCover;
     private EditText edtvTitre;
     private EditText edtvDescription;
+    private SwitchCompat swProprietaire;
     private Uri imageUri;
     private String[] cameraPermissions;
     private String[] storagePermissions;
     private String myuid;
-    private User user;
-    private DatabaseReference reference;
-    private final ValueEventListener valuser = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            for (DataSnapshot ds : snapshot.getChildren()){
-                user = ds.getValue(User.class);
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            Toast.makeText(AddPostActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    };
-    private final TextWatcher twTitre = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Toast.makeText(AddPostActivity.this, "Yes, yes - " + s, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            //edtvTitre.removeTextChangedListener(twTitre);
-        }
-    };
+    private String userName;
+    private String userAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,38 +61,6 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         appPreferences(this);
         setContentView(R.layout.activity_add_post);
         checkuser();
-    }
-
-    private void checkuser() {
-        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-        if(fuser != null){
-            myuid = fuser.getUid();
-            reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
-            initviews();
-            Query query = reference.child(USERS).orderByKey().equalTo(myuid);
-            query.addListenerForSingleValueEvent(valuser);
-        }else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
-    }
-
-    private void initviews() {
-        ivCover = findViewById(R.id.ivCover);
-        edtvTitre = findViewById(R.id.edtvTitre);
-        edtvDescription = findViewById(R.id.edtvDescription);
-        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        findViewById(R.id.btAddImmeuble).setOnClickListener(this);
-        ivCover.setOnClickListener(this);
-        edtvTitre.addTextChangedListener(twTitre);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 
     @Override
@@ -180,16 +118,18 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btAddImmeuble){
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.app_name))
-                    .setMessage(getString(R.string.submit_conditions_message))
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        verificationDesChamps();
-                    }).create().show();
+        if (v.getId() == R.id.btAddPost){
+            showAddPostDialog();
         }else if (v.getId() == R.id.ivCover){
             showImageDialog();
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int id = buttonView.getId();
+        if (id == R.id.swProprietaire){
+            swProprietaire.setText(isChecked?getString(R.string.iam_proprietaire):getString(R.string.iam_not_proprietaire));
         }
     }
 
@@ -236,6 +176,14 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
+    private void showAddPostDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.app_name))
+                .setMessage(getString(R.string.submit_conditions_message))
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> verificationDesChamps()).create().show();
+    }
+
     private void verificationDesChamps() {
         String titre = edtvTitre.getText().toString().trim();
         String description = edtvDescription.getText().toString().trim();
@@ -256,7 +204,33 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
         creerUnPost(this, imageUri, ""+titre, ""+description,
-                ""+myuid, ""+user.getUnoms(), ""+user.getUavatar());
+                ""+myuid, ""+userName, ""+userAvatar, swProprietaire.isChecked());
+    }
+
+    private void checkuser() {
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        if(fuser != null){
+            myuid = fuser.getUid();
+            userName = getIntent().getStringExtra("userName");
+            userAvatar = getIntent().getStringExtra("userAvatar");
+            initviews();
+        }else {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    private void initviews() {
+        ivCover = findViewById(R.id.ivCover);
+        edtvTitre = findViewById(R.id.edtvTitre);
+        edtvDescription = findViewById(R.id.edtvDescription);
+        swProprietaire = findViewById(R.id.swProprietaire);
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        findViewById(R.id.btAddPost).setOnClickListener(this);
+        ivCover.setOnClickListener(this);
+        swProprietaire.setOnCheckedChangeListener(this);
+        //edtvTitre.addTextChangedListener(twTitre);
     }
 
 }

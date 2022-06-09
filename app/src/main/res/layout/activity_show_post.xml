@@ -23,7 +23,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivAvatar"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
                 android:scaleType="centerCrop"
@@ -41,11 +41,11 @@
 
                 <TextView
                     android:id="@+id/tvPostTitre"
-                    android:text="Titre du post"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Titre du post"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvPostInfos"
@@ -83,6 +83,14 @@
                 android:contentDescription="@string/post_cover"
                 android:scaleType="centerCrop"
                 android:src="@drawable/lion" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rtNoterPost"
+                style="@style/rt_settings_basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/llActions"
+                android:layout_marginTop="3dp" />
 
             <LinearLayout
                 android:id="@+id/llActions"
@@ -160,13 +168,13 @@
 
             <TextView
                 android:id="@+id/tvPost"
-                android:padding="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llActions"
                 android:background="?attr/rlBackground"
-                android:textColor="?attr/itemBackground"
-                android:text="@string/description_immeuble" />
+                android:padding="20sp"
+                android:text="@string/description_immeuble"
+                android:textColor="?attr/itemBackground" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvComments"
@@ -184,8 +192,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
-        android:background="@color/white"
+        android:background="?attr/edtvComment"
         android:orientation="horizontal">
 
         <EditText
@@ -193,7 +200,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/ibComment"
-            android:background="@color/white"
+            android:background="?attr/edtvComment"
             android:hint="@string/votre_commentaire"
             android:inputType="text"
             android:padding="20sp" />

@@ -26,7 +26,7 @@
         tools:listitem="@layout/item_post" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddImmeuble"
+        android:id="@+id/fabAddPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -35,6 +35,17 @@
         android:layout_marginBottom="40dp"
         android:contentDescription="@string/ajouter_un_immeuble"
         android:src="@drawable/ic_action_immeuble" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSearchPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="110dp"
+        android:contentDescription="@string/ajouter_un_immeuble"
+        android:src="@drawable/ic_action_rechercher" />
 
 
     <TextView

@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        />
 
     <androidx.core.widget.NestedScrollView
         android:layout_below="@+id/toolbar"
@@ -39,54 +40,72 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/lion"
-                    android:contentDescription="@string/camera" />
+                    android:contentDescription="@string/camera"
+                    />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivAvatar"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="170dp"
-                    android:layout_marginBottom="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/lion"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/llInfos"
-                    android:background="#abcdef"
-                    android:layout_marginTop="320dp"
-                    android:padding="15dp"
+                    android:background="#88abcdef"
+                    android:layout_alignBottom="@+id/ivCover"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tvNoms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="3dp"
-                        android:text="Patrick NKOA"
-                        android:textColor="@color/black"
-                        app:drawableStartCompat="@drawable/ic_action_person"
-                        android:textStyle="bold" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivAvatar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/lion"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="2dp"
+                        />
 
-                    <TextView
-                        android:id="@+id/tvTelephone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="3dp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_action_phone"
-                        android:text="+237 6 77 81 40 03"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toEndOf="@+id/ivAvatar"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvNoms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/ic_action_person" />
+
+                        <TextView
+                            android:id="@+id/tvTelephone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/ic_action_phone" />
+
+                        <TextView
+                            android:id="@+id/tvVille"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/ic_action_ville" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -101,7 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/iam_xpert"
-                app:drawableEndCompat="@drawable/ic_action_xpert" />
+                app:drawableEndCompat="@drawable/ic_action_xpert"
+                />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swTheme"
@@ -113,7 +133,8 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Theme (Mode clair)" />
+                android:text="Theme (Mode clair)"
+                />
 
             <TextView
                 android:id="@+id/tvLanguage"
@@ -126,7 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_language"
-                app:drawableEndCompat="@drawable/ic_action_laguage" />
+                app:drawableEndCompat="@drawable/ic_action_laguage"
+                />
 
             <TextView
                 android:id="@+id/tvInfoCompte"
@@ -139,11 +161,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/info_compte"
-                app:drawableEndCompat="@drawable/ic_action_infos" />
+                app:drawableEndCompat="@drawable/ic_action_infos"
+                />
 
             <TextView
                 android:id="@+id/tvSignout"
                 android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:background="?attr/rlBackground"
                 android:padding="20sp"
                 android:textColor="?attr/appRouge"
@@ -152,8 +176,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/deconnexion"
-                app:drawableEndCompat="@drawable/ic_action_signout" />
-
+                app:drawableEndCompat="@drawable/ic_action_signout"
+                />
 
         </LinearLayout>
 

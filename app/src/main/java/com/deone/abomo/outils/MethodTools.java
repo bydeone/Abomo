@@ -25,7 +25,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -78,16 +80,49 @@ public class MethodTools {
 
     public static void appPreferences(Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences("ABOMO_PREF", MODE_PRIVATE);
-        boolean isTheme = preferences.getBoolean("THEME", false);
-        if (isTheme){
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+        initAppTheme(activity, preferences);
+        initAppLanguage(activity, preferences);
+        initAppLocalisation(activity, preferences);
+    }
+
+    private static void initAppLocalisation(Activity activity, SharedPreferences preferences) {
+        String paysCode = null;
+        try{
+            final TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+            final String simCountry = tm.getSimCountryIso();
+            if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
+                paysCode = simCountry.toLowerCase(Locale.getDefault());
+            }
+            else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+                String networkCountry = tm.getNetworkCountryIso();
+                if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
+                    paysCode = networkCountry.toLowerCase(Locale.getDefault());
+                }
+            }
+        }catch (Exception e){
+            Log.d(""+activity.getString(R.string.app_name), ""+e.getMessage());
         }
+        saveAppCountryPreference(preferences, paysCode);
+    }
+
+    private static void saveAppCountryPreference(SharedPreferences preferences, String paysCode) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("COUNTRY", paysCode);
+        editor.apply();
+    }
+
+    private static void initAppLanguage(Activity activity, SharedPreferences preferences) {
         String langCode = preferences.getString("LANGUAGE", ""+Locale.getDefault().getLanguage());
         setLocal(activity, langCode);
-        saveAppThemePreference(preferences, isTheme);
         saveAppLanguagePreference(preferences, langCode);
+        Log.d(""+activity.getString(R.string.app_name), "init App Language : Done");
+    }
+
+    private static void initAppTheme(Activity activity, SharedPreferences preferences) {
+        boolean isTheme = preferences.getBoolean("THEME", false);
+        AppCompatDelegate.setDefaultNightMode(isTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
+        saveAppThemePreference(preferences, isTheme);
+        Log.d(""+activity.getString(R.string.app_name), "init App Theme : Done");
     }
 
     public static boolean isNightMode(Context context) {
@@ -159,7 +194,7 @@ public class MethodTools {
         return hashMap;
     }
 
-    public static void creerUnCompte(Activity activity, Uri imageUri, String nomComplet, String telephone, String utilisateur, String motdepasse) {
+    public static void creerUnCompte(Activity activity, Uri imageUri, String nomComplet, String telephone, String ville, String utilisateur, String motdepasse) {
         ProgressDialog progressDialog = showProgressDialog(
                 activity,
                 "" + activity.getString(R.string.app_name),
@@ -182,7 +217,7 @@ public class MethodTools {
                                     "",
                                     "",
                                     "",
-                                    "",
+                                    ""+ville,
                                     "",
                                     "",
                                     "" + timestamp);
@@ -274,20 +309,20 @@ public class MethodTools {
         return hashMap;
     }
 
-    public static void creerUnPost(Activity activity, Uri imageUri, String titre, String description, String uid, String unoms, String uavatar) {
+    public static void creerUnPost(Activity activity, Uri imageUri, String titre, String description, String uid, String unoms, String uavatar, boolean isProprietaire) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         Post post = new Post(""+timestamp, ""+titre,
                 "", ""+description,
-                "", "",
-                "", "",
-                "", "",
-                "", "", "",
-                "", ""+timestamp,
+                "0", "0",
+                "0", "0",
+                "0", "0",
+                "0", "0", "0",
+                "0", ""+timestamp,
                 ""+uid, ""+unoms, ""+uavatar);
         if (imageUri != null){
-            post.ajouterImage(activity, imageUri, "");
+            post.ajouterImage(activity, imageUri, "", isProprietaire);
         }else {
-            post.ajouterPost(activity);
+            post.ajouterPost(activity, isProprietaire);
         }
     }
 
@@ -340,24 +375,6 @@ public class MethodTools {
         return null;
     }
 
-    private static void showCommentsDialog(Activity activity) {
-        final Dialog dialog = new Dialog(activity);
-        dialog.setContentView(R.layout.dialog_comment);
-        TextView tvTitre = dialog.findViewById(R.id.tvTitre);
-        TextView tvMessage = dialog.findViewById(R.id.tvMessage);
-        CheckBox cbSignale = dialog.findViewById(R.id.cbSignale);
-        Button btSignaler = dialog.findViewById(R.id.btSignaler);
-        Button btAnnuler = dialog.findViewById(R.id.btAnnuler);
-        btSignaler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btAnnuler.setOnClickListener(v1 -> dialog.dismiss());
-        dialog.show();
-    }
-
     public static String saveImageToSdCard(Activity activity) {
         File chemin = null;
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.lion);
@@ -399,6 +416,46 @@ public class MethodTools {
         Calendar cal = Calendar.getInstance(current == Locale.FRANCE ? Locale.FRANCE : Locale.ENGLISH);
         cal.setTimeInMillis(Long.parseLong(date));
         return DateFormat.format(current == Locale.FRANCE ? FORMAT_DATE_SIMPLE : FORMAT_DATE_SIMPLE_EN, cal).toString();
+    }
+
+    /*private final TextWatcher twTitre = new TextWatcher() {
+        private int selPos;
+        private String oldString, newString;
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            selPos = edtvTitre.getSelectionStart();
+            oldString = myFilter(s.toString());
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            edtvTitre.removeTextChangedListener(this);
+            newString = myFilter(s.toString());
+            edtvTitre.setText(newString);
+            int newPos = selPos + (newString.length() - oldString.length());
+            if (newPos < 0) newPos = 0;
+            edtvTitre.setSelection(newPos);
+            edtvTitre.addTextChangedListener(this);
+        }
+
+        private String myFilter(String s) {
+            String digits;
+            digits = s.replaceAll("[^0-9]", "");
+            if (s.equals("")) return "";
+            return digits;
+        }
+    };*/
+
+    public static float ratingNote(String note) {
+        return Float.parseFloat(note)/4;
+    }
+    public static float noteRating(String note) {
+        return Float.parseFloat(note)*4;
     }
 
 }

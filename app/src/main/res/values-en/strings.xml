@@ -131,4 +131,9 @@
     <string name="get_notifications">Recevoir des notificationspour</string>
     <string name="publish_at">Publié le %s</string>
     <string name="publish_at_by">Publié le %s - Vue par %s personnes</string>
+    <string name="ville">Ville</string>
+    <string name="ville_error">Erreur lors de la saisie de la ville</string>
+    <string name="no_raison">Vous n\'avez mis aucune raison</string>
+    <string name="choose_expert">Choisissez une option</string>
+    <string name="pas_de_note">Pas de note disponible</string>
 </resources>

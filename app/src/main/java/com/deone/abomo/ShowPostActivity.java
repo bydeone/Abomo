@@ -8,6 +8,7 @@ import static com.deone.abomo.outils.ConstantsTools.LIKES;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
 import static com.deone.abomo.outils.ConstantsTools.SIGNALES;
 import static com.deone.abomo.outils.ConstantsTools.USERS;
+import static com.deone.abomo.outils.ConstantsTools.WORK;
 import static com.deone.abomo.outils.MethodTools.appPreferences;
 import static com.deone.abomo.outils.MethodTools.dataForActivity;
 import static com.deone.abomo.outils.MethodTools.formatDetailsPost;
@@ -17,6 +18,7 @@ import static com.deone.abomo.outils.MethodTools.timestampToString;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,6 +62,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,15 +75,16 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     private String myuid;
     private String pid;
     private String uid;
-    private String manote = "";
     private boolean likeProcess = false;
     private boolean favoriteProcess = false;
     private boolean signaleProcess = false;
+    private boolean commentProcess = false;
     private ImageView ivCover;
     private ImageView ivAvatar;
     private TextView tvPostTitre;
     private TextView tvPostInfos;
     private TextView tvPost;
+    private RatingBar rtNoterPost;
     private TextView tvRapidGallery;
     private TextView tvRapidWork;
     private TextView tvRapidJaime;
@@ -99,15 +104,13 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                 tvPostTitre.setText(post.getPtitre());
                 tvPostInfos.setText(formatHeureJourAn(""+post.getPdate()));
                 tvPost.setText(post.getPdescription());
-                if (ds.child("Notes").hasChild(myuid))
-                    manote = ds.child("Notes").child(myuid).child("nnote").getValue(String.class);
-                Glide.with(ShowPostActivity.this)
+                Glide.with(getApplicationContext())
                         .load(post.getUavatar())
                         .placeholder(R.drawable.lion)
                         .error(R.drawable.ic_action_person)
                         .centerCrop()
                         .into(ivAvatar);
-                Glide.with(ShowPostActivity.this)
+                Glide.with(getApplicationContext())
                         .load(post.getPcover())
                         .placeholder(R.drawable.lion)
                         .error(R.drawable.lion)
@@ -127,12 +130,34 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
                         ds.child(FAVORITES).hasChild(myuid) ? R.drawable.ic_action_favorite:R.drawable.ic_action_unfavorite,
                         0);
                 tvRapidSignalement.setText(post.getPnsignales());
+                tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        ds.child(SIGNALES).hasChild(myuid) ? R.drawable.ic_action_signaler:R.drawable.ic_action_unsignaler,
+                        0);
                 tvRapidWork.setText(post.getPntravaux());
+                tvRapidWork.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        ds.child(WORK).hasChild(myuid) ? R.drawable.ic_action_custom_work:R.drawable.ic_action_travaux,
+                        0);
 
-                    /*initializeLikes(ds);
-                    initializeFavorites(ds);
-                    initializeSignales(ds);
-                    initializeShares(ds);*/
+                if (!post.getPnnotes().equals("0")){
+                    float note = Float.parseFloat(post.getPnnotes())/4;
+                    rtNoterPost.setRating(note);
+                    if (note<=2){
+                        rtNoterPost.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(ShowPostActivity.this, R.color.red)));
+                    } else if (note<=4){
+                        rtNoterPost.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(ShowPostActivity.this, R.color.gold)));
+                    } else if (note<=5){
+                        rtNoterPost.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(ShowPostActivity.this, R.color.yellow)));
+                    }
+                }
+
+                /*initializeLikes(ds);
+                initializeFavorites(ds);
+                initializeSignales(ds);
+                initializeShares(ds);*/
             }
         }
 
@@ -216,10 +241,13 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             uid = dataForActivity(this, "uid");
             reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
             initviews();
+            //
             Query query = reference.child(POSTS).orderByKey().equalTo(pid);
             query.addValueEventListener(valpost);
+            //
             Query uquery = reference.child(USERS).orderByKey().equalTo(myuid);
             uquery.addValueEventListener(valuser);
+            //
             reference.child(POSTS).child(pid).child(COMMENTS).addValueEventListener(valcomments);
         }else {
             startActivity(new Intent(this, MainActivity.class));
@@ -239,6 +267,8 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         tvPostTitre = findViewById(R.id.tvPostTitre);
         //
         tvPostInfos = findViewById(R.id.tvPostInfos);
+        //
+        rtNoterPost = findViewById(R.id.rtNoterPost);
         // Liste des boutons d'action
         tvRapidJaime = findViewById(R.id.tvRapidJaime);
         //
@@ -263,7 +293,6 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         commentaireList = new ArrayList<>();
         edtvComment = findViewById(R.id.edtvComment);
         findViewById(R.id.ibComment).setOnClickListener(this);
-
         tvRapidJaime.setOnClickListener(this);
         tvRapidGallery.setOnClickListener(this);
         tvRapidFavorite.setOnClickListener(this);
@@ -284,49 +313,47 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         } else if (id == R.id.ibRapidPartage && !myuid.equals(uid)){
             partagerUnPost();
         } else if (id == R.id.tvRapidSignalement){
-            signalerUnPost();
+            proccessSignaler();
         } else if (id == R.id.tvRapidWork){
             workUnPost();
         } else if (id == R.id.tvRapidGallery){
             galleryUnPost();
-        }  else if (id == R.id.tvNotations){
-            if (myuid.equals(uid)){
-                Intent intent = new Intent(this, NotationsActivity.class);
-                intent.putExtra("pid", pid);
-                startActivity(intent);
-            }else {
-                final Dialog dialog = new Dialog(this);
-                dialog.setContentView(R.layout.dialog_noter);
-                TextView tvMaNote = dialog.findViewById(R.id.tvMaNote);
-                if(!manote.isEmpty())
-                    tvMaNote.setText(String.format("Votre note (%s)", manote));
-                RatingBar rtNoterPost = dialog.findViewById(R.id.rtNoterPost);
-                if(!manote.isEmpty())
-                    rtNoterPost.setRating(Float.parseFloat(manote));
-                rtNoterPost.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
-                    String nt = String.valueOf((20*rating)/5);
-                    tvMaNote.setText(String.format("Votre note (%s)", nt));
-                });
-                dialog.findViewById(R.id.btNoter).setOnClickListener(v12 -> {
-                    String note = String.valueOf(rtNoterPost.getRating());
-                    if (note.isEmpty()){
-                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_note), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    prepareNoteData(dialog, note);
-                });
-                dialog.show();
-            }
-        } else if (id == R.id.ibComment) {
+        }else if (id == R.id.ibComment) {
             verificationCommentaire();
         } else if (id == R.id.ivAvatar) {
             // Affichez les informations de l'utilisateur
         } else if (id == R.id.tvPostTitre) {
-            Intent intent = new Intent(this, PostActivity.class);
-            intent.putExtra("pid", pid);
-            intent.putExtra("uid", uid);
-            startActivity(intent);
+            openPostDetails();
         }
+    }
+
+    private void openPostDetails() {
+        Intent intent = new Intent(this, PostActivity.class);
+        intent.putExtra("pid", pid);
+        intent.putExtra("uid", uid);
+        intent.putExtra("nom", user.getUnoms());
+        intent.putExtra("avatar", user.getUavatar());
+        startActivity(intent);
+    }
+
+
+
+    private void proccessSignaler() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_signaler);
+        dialog.setTitle(getString(R.string.app_name));
+        EditText tvMessage = dialog.findViewById(R.id.tvMessage);
+        CheckBox cbSignale = dialog.findViewById(R.id.cbSignale);
+        dialog.findViewById(R.id.btSignaler).setOnClickListener(v12 -> {
+            String raison = tvMessage.getText().toString().trim();
+            if (raison.isEmpty()){
+                Toast.makeText(ShowPostActivity.this, ""+getString(R.string.no_raison), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            signalerUnPost(raison, cbSignale.isChecked());
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
     private void galleryUnPost() {
@@ -338,45 +365,6 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
 
     private void workUnPost() {
 
-    }
-
-    private void prepareNoteData(final Dialog dialog, String note) {
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        String nt = String.valueOf((20*Float.parseFloat(note))/5);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("nid", myuid);
-        hashMap.put("nnote", nt);
-        hashMap.put("uid", myuid);
-        hashMap.put("unoms", user.getUnoms());
-        hashMap.put("uavatar", user.getUavatar());
-        hashMap.put("ndate", timestamp);
-        saveNoteData(dialog, hashMap);
-    }
-
-    private void saveNoteData(final Dialog dialog, HashMap<String, Object> hashMap) {
-        if(manote.isEmpty()){
-            reference.child(POSTS).child(pid).child("Notes").child(myuid)
-                    .setValue(hashMap)
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.add_note_success), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    });
-        }else{
-            reference.child(POSTS).child(pid).child("Notes").child(myuid)
-                    .updateChildren(hashMap)
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.update_note_success), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    });
-        }
     }
 
     private void initializeFavorites(DataSnapshot ds) {
@@ -452,12 +440,12 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (favoriteProcess){
                     if (snapshot.hasChild(myuid)){
-                        postsRef.child(pid).child("pnfavorites").setValue(""+ (Integer.parseInt(post.getPnfavorites()) - 1));
+                        postsRef.child(pid).child("pnfavorites").setValue(""+ (snapshot.getChildrenCount() - 1));
                         favoritesRef.child(uid).removeValue();
                         tvRapidFavorite.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unfavorite, 0);
                         Toast.makeText(ShowPostActivity.this, "Publication non favorite", Toast.LENGTH_SHORT).show();
                     } else {
-                        postsRef.child(pid).child("pnfavorites").setValue(""+ (Integer.parseInt(post.getPnfavorites()) + 1));
+                        postsRef.child(pid).child("pnfavorites").setValue(""+ snapshot.getChildrenCount());
                         String timestamp = String.valueOf(System.currentTimeMillis());
                         HashMap<String, String> hashMap = new HashMap<>();
                         hashMap.put("fid", uid);
@@ -477,24 +465,39 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    public void signalerUnPost() {
-        if (signaleProcess){
-            reference.child(POSTS).child(pid).child("pnsignales").setValue(""+ (Integer.parseInt(post.getPnsignales()) - 1));
-            reference.child(POSTS).child(pid).child(SIGNALES).child(uid).removeValue();
-            tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unsignaler, 0);
-            Toast.makeText(ShowPostActivity.this, "Publication non signalée", Toast.LENGTH_SHORT).show();
-            signaleProcess = false;
-        }else {
-            reference.child(POSTS).child(pid).child("pnsignales").setValue(""+ (Integer.parseInt(post.getPnsignales()) + 1));
-            String timestamp = String.valueOf(System.currentTimeMillis());
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("lid", uid);
-            hashMap.put("ldate", timestamp);
-            reference.child(POSTS).child(pid).child(SIGNALES).child(uid).setValue(hashMap);
-            tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
-            Toast.makeText(ShowPostActivity.this, "Publication signalée", Toast.LENGTH_SHORT).show();
-            signaleProcess = true;
-        }
+    public void signalerUnPost(String raison, boolean blockUser) {
+        signaleProcess = true;
+        final DatabaseReference signalesRef = reference.child(POSTS).child(pid).child(SIGNALES);
+        final DatabaseReference postsRef = reference.child(POSTS);
+        signalesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (signaleProcess){
+                    if (snapshot.hasChild(myuid)){
+                        signalesRef.child(uid).removeValue();
+                        tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_unsignaler, 0);
+                        postsRef.child(pid).child("pnsignales").setValue(""+ (Integer.parseInt(post.getPnsignales()) -1 ));
+                        Toast.makeText(ShowPostActivity.this, "Publication non signalée", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String timestamp = String.valueOf(System.currentTimeMillis());
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        hashMap.put("sid", uid);
+                        hashMap.put("sraison", raison);
+                        hashMap.put("sdate", timestamp);
+                        signalesRef.child(uid).setValue(hashMap);
+                        tvRapidSignalement.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_signaler, 0);
+                        postsRef.child(pid).child("pnsignales").setValue(""+ (Integer.parseInt(post.getPnsignales()) + 1));
+                        Toast.makeText(ShowPostActivity.this, "Publication signalée" + snapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
+                    }
+                    signaleProcess = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void verificationCommentaire() {
@@ -524,19 +527,30 @@ public class ShowPostActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveData(String timestamp, HashMap<String, String> hashMap) {
-        reference.child(POSTS).child(pid)
-                .child(COMMENTS).child(timestamp)
-                .setValue(hashMap)
-                .addOnSuccessListener(unused -> {
-                    reference.child(POSTS).child(pid).child("pncommentaires").setValue(""+ (Integer.parseInt(post.getPnlikes()) + 1))
-                            .addOnSuccessListener(unused1 -> {
-                                Toast.makeText(ShowPostActivity.this, ""+getString(R.string.success_comment), Toast.LENGTH_SHORT).show();
-                                edtvComment.setText(null);
-                                edtvComment.setHint(getString(R.string.votre_commentaire));
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
-                })
-                .addOnFailureListener(e -> Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+        final DatabaseReference commentsRef = reference.child(POSTS).child(pid).child(COMMENTS);
+        final DatabaseReference postsRef = reference.child(POSTS);
+        commentsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentsRef.child(timestamp).setValue(hashMap)
+                        .addOnSuccessListener(unused -> {
+                            postsRef.child(pid).child("pncommentaires").setValue(""+ (snapshot.getChildrenCount()))
+                                    .addOnSuccessListener(unused1 -> {
+                                        Toast.makeText(ShowPostActivity.this, ""+getString(R.string.success_comment), Toast.LENGTH_SHORT).show();
+                                        edtvComment.setText(null);
+                                        edtvComment.setHint(getString(R.string.votre_commentaire));
+                                    })
+                                    .addOnFailureListener(e -> Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(ShowPostActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ShowPostActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
 }

@@ -1,7 +1,9 @@
 package com.deone.abomo.models;
 
 import static com.deone.abomo.outils.ConstantsTools.DATABASE;
+import static com.deone.abomo.outils.ConstantsTools.PARCK;
 import static com.deone.abomo.outils.ConstantsTools.POSTS;
+import static com.deone.abomo.outils.ConstantsTools.USERS;
 import static com.deone.abomo.outils.MethodTools.preparePostData;
 import static com.deone.abomo.outils.MethodTools.showProgressDialog;
 
@@ -11,8 +13,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.deone.abomo.MainActivity;
 import com.deone.abomo.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -214,7 +220,7 @@ public class Post implements Comparable<Post>{
         return 0;
     }
 
-    public void ajouterPost(Activity activity){
+    public void ajouterPost(Activity activity, boolean isProprietaire){
         ProgressDialog progressDialog = showProgressDialog(
                 activity,
                 ""+activity.getString(R.string.app_name),
@@ -227,25 +233,35 @@ public class Post implements Comparable<Post>{
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(""+DATABASE);
         reference.child(POSTS).child(pid).setValue(hashMap)
                 .addOnSuccessListener(unused -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(
-                            activity,
-                            ""+activity.getString(R.string.save_user_info_ok),
-                            Toast.LENGTH_SHORT
-                    ).show();
-                    activity.startActivity(new Intent(activity, MainActivity.class));
-                    activity.finish();
+                    if (isProprietaire){
+                        HashMap<String, String> hp = new HashMap<>();
+                        hp.put("ppdate", pid);
+                        reference.child(USERS).child(uid).child(PARCK).child(pid).setValue(hp)
+                                .addOnSuccessListener(unused1 -> {
+                                    processSuccess(activity, progressDialog);
+                                }).addOnFailureListener(e -> {
+                                    proccessDimiss(activity, progressDialog, e);
+                                });
+                    }else {
+                        processSuccess(activity, progressDialog);
+                    }
                 }).addOnFailureListener(e -> {
-            progressDialog.dismiss();
-            Toast.makeText(
-                    activity,
-                    ""+e.getMessage(),
-                    Toast.LENGTH_SHORT
-            ).show();
+                    proccessDimiss(activity, progressDialog, e);
         });
     }
 
-    public void ajouterImage(Activity activity, Uri imageUri, String field){
+    private void processSuccess(Activity activity, ProgressDialog progressDialog) {
+        progressDialog.dismiss();
+        Toast.makeText(
+                activity,
+                ""+activity.getString(R.string.save_user_info_ok),
+                Toast.LENGTH_SHORT
+        ).show();
+        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.finish();
+    }
+
+    public void ajouterImage(Activity activity, Uri imageUri, String field, boolean isProprietaire){
         String filePathAndName = "Post/"+"post_" + pid + "_" +  field + "_" + pdate;
         ProgressDialog progressDialog = showProgressDialog(
                 activity,
@@ -258,22 +274,31 @@ public class Post implements Comparable<Post>{
 
             String downloadUri = uriTask.getResult().toString();
             if (uriTask.isSuccessful()){
-                progressDialog.dismiss();
-                Toast.makeText(
-                        activity,
-                        ""+activity.getString(R.string.save_image_ok, filePathAndName),
-                        Toast.LENGTH_SHORT
-                ).show();
-                this.setPcover(downloadUri);
-                this.ajouterPost(activity);
+                proccessAddPost(activity, progressDialog, isProprietaire, filePathAndName, downloadUri);
             }else
                 progressDialog.dismiss();
         }).addOnFailureListener(e -> {
-            progressDialog.dismiss();
-            Toast.makeText(
-                    activity,
-                    ""+e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
+            proccessDimiss(activity, progressDialog, e);
         });
     }
+
+    private void proccessDimiss(Activity activity, ProgressDialog progressDialog, Exception e) {
+        progressDialog.dismiss();
+        Toast.makeText(
+                activity,
+                ""+e.getMessage(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void proccessAddPost(Activity activity, ProgressDialog progressDialog, boolean isProprietaire, String filePathAndName, String downloadUri) {
+        progressDialog.dismiss();
+        Toast.makeText(
+                activity,
+                ""+activity.getString(R.string.save_image_ok, filePathAndName),
+                Toast.LENGTH_SHORT
+        ).show();
+        this.setPcover(downloadUri);
+        this.ajouterPost(activity, isProprietaire);
+    }
+
 }

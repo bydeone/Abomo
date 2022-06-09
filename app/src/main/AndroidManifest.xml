@@ -17,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Abomo">
         <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MercurialeActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostActivity"
             android:exported="false" />
         <activity

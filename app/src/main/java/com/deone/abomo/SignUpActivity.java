@@ -39,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView ivAvatar;
     private EditText edtvNons;
     private EditText edtvTelephone;
+    private EditText edtvVille;
     private EditText edtvUtilisateur;
     private EditText edtvMotdepasse;
     private EditText edtvConfmotdepasse;
@@ -89,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ivAvatar = findViewById(R.id.ivAvatar);
         edtvNons = findViewById(R.id.edtvNons);
         edtvTelephone = findViewById(R.id.edtvTelephone);
+        edtvVille = findViewById(R.id.edtvVille);
         edtvUtilisateur = findViewById(R.id.edtvUtilisateur);
         edtvMotdepasse = findViewById(R.id.edtvMotdepasse);
         edtvConfmotdepasse = findViewById(R.id.edtvConfmotdepasse);
@@ -227,6 +229,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void verificationDesChamps() {
         String nomComplet = edtvNons.getText().toString().trim();
         String telephone = edtvTelephone.getText().toString().trim();
+        String ville = edtvVille.getText().toString().trim();
         String utilisateur = edtvUtilisateur.getText().toString().trim();
         String motdepasse = edtvMotdepasse.getText().toString().trim();
         String confMotdepasse = edtvConfmotdepasse.getText().toString().trim();
@@ -242,6 +245,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(
                     this,
                     ""+getString(R.string.telephone_error),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+        if (ville.isEmpty()){
+            Toast.makeText(
+                    this,
+                    ""+getString(R.string.ville_error),
                     Toast.LENGTH_SHORT
             ).show();
             return;
@@ -275,6 +286,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 imageUri,
                 ""+nomComplet,
                 ""+telephone,
+                ""+ville,
                 ""+utilisateur,
                 ""+motdepasse
         );

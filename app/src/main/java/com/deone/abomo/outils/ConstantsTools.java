@@ -17,10 +17,12 @@ public class ConstantsTools {
     public static final String POSTS = "Posts";
     public static final String LIKES = "Likes";
     public static final String SHARES = "Shares";
+    public static final String WORK = "Works";
     public static final String FAVORITES = "Favorites";
     public static final String SIGNALES = "Signales";
     public static final String COMMENTS = "Comments";
     public static final String IMAGES = "Images";
+    public static final String PARCK = "Parck";
 
     //463852297281-t5r0qrec0sufjm0rsu2l4kk06d6eo9k6.apps.googleusercontent.com
 

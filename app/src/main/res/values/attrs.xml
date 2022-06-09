@@ -8,4 +8,7 @@
     <attr name="showBackground" format="reference" />
     <attr name="rlBackground" format="reference" />
     <attr name="appRouge" format="reference" />
+    <attr name="edtvComment" format="reference" />
+    <attr name="tvDrawable" format="reference" />
+    <attr name="itemTvPost" format="reference" />
 </resources>

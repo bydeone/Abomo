@@ -8,17 +8,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="rouge_jour">#FF0000</color>
-    <color name="rouge_nuit">#490000</color>
+    <color name="rouge_nuit">#FF0000</color>
     <color name="app_back_jour">#8E3150</color>
-    <color name="app_back_nuit">#6A0125</color>
+    <color name="app_back_nuit">#FF000000</color>
     <color name="field_back_jour">#EDAAC1</color>
     <color name="field_back_nuit">#817A7C</color>
     <color name="field_border_jour">#001957</color>
     <color name="field_border_nuit">#C8CBD3</color>
     <color name="item_description_background_jour">#99ABCDEF</color>
     <color name="item_description_background_nuit">#99556575</color>
-    <color name="item_field_back_jour">#ffeeddcc</color>
-    <color name="item_field_back_nuit">#aabbccdd</color>
+    <color name="item_field_back_jour">#FFFFFFFF</color>
+    <color name="item_field_back_nuit">#FFFFFFFF</color>
     <color name="rl_background_jour">#33000000</color>
-    <color name="rl_background_nuit">#33000000</color>
+    <color name="rl_background_nuit">#33FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="gold">#D44F37</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

@@ -7,19 +7,45 @@
     android:background="?attr/pageBackground"
     tools:context=".SignUpActivity">
 
+    <View
+        android:id="@+id/viHead"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="?attr/edtvComment" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAvatar"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:src="@drawable/lion" />
 
+    <TextView
+        android:id="@+id/tvHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/viHead"
+        android:layout_toEndOf="@+id/ivAvatar"
+        android:text="Votre compte"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_below="@+id/tvHead"
+        android:textSize="11sp"
+        android:text="Création de votre compte utilisateur"
+        android:textColor="@color/white"
+        android:layout_toEndOf="@+id/ivAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
+        android:id="@+id/llFields"
         android:layout_below="@+id/ivAvatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,6 +76,19 @@
             android:background="@drawable/redtv"
             android:drawableEnd="@drawable/ic_action_phone"
             android:hint="@string/t_l_phone"
+            android:inputType="phone"
+            android:padding="20sp" />
+
+        <EditText
+            android:id="@+id/edtvVille"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/redtv"
+            android:drawableEnd="@drawable/ic_action_ville"
+            android:hint="@string/ville"
             android:inputType="phone"
             android:padding="20sp" />
 
@@ -100,6 +139,7 @@
             android:enabled="false"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:textAllCaps="false"
             android:text="@string/creer"
             android:textColor="@color/white" />
 

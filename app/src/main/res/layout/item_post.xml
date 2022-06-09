@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="47 vues"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemTvPost"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="127 j'aimes"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemTvPost"
                 android:textStyle="bold" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="17 commentaires"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemTvPost"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -75,7 +75,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/titre_de_l_immeuble"
-                android:textColor="@color/black"
+                android:textColor="?attr/itemTvPost"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@string/description_immeuble"
-                android:textColor="@color/black" />
+                android:textColor="?attr/itemTvPost" />
 
         </LinearLayout>
 
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/nom_utilisateur"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/itemTvPost"
                     android:textStyle="bold" />
 
                 <TextView
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvNoms"
                     android:text="Date de publication"
-                    android:textColor="@color/black" />
+                    android:textColor="?attr/itemTvPost" />
 
             </RelativeLayout>
 

@@ -21,6 +21,9 @@
         <item name="showBackground">@color/item_description_background_jour</item>
         <item name="rlBackground">@color/rl_background_jour</item>
         <item name="appRouge">@color/rouge_jour</item>
+        <item name="edtvComment">@color/field_back_jour</item>
+        <item name="tvDrawable">@color/gold</item>
+        <item name="itemTvPost">@color/black</item>
     </style>
     <style name="tv_settings_one">
         <item name="android:background">?attr/itemBackground</item>
@@ -50,5 +53,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginTop">3dp</item>
+    </style>
+    <style name="rt_settings_basic" parent="android:Widget.Material.RatingBar.Small">
+        <item name="android:numStars">5</item>
+    </style>
+    <style name="rt_settings" parent="android:Widget.Material.RatingBar.Small">
+        <item name="android:background">?attr/rlBackground</item>
+        <item name="android:numStars">5</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
     </style>
 </resources>

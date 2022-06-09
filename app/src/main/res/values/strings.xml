@@ -34,10 +34,11 @@
     <string name="param_tres">Paramètres</string>
     <string name="a_propos">A propos</string>
     <string name="sign_out">Voulez-vous quitter l\'application ?</string>
+    <string name="search_ask">Voulez-vous créer une recherche pour : %s ?</string>
     <string name="del_post">Voulez-vous supprimer cette publication ?</string>
     <string name="delete_post">Voulez-vous supprimer le post ?</string>
     <string name="deconnexion">Deconnexion</string>
-    <string name="creer">CREER</string>
+    <string name="creer">Créer votre compte</string>
     <string name="ajouter_un_immeuble">Ajouter un post</string>
     <string name="titre_de_l_immeuble">Titre de l\'post</string>
     <string name="description_immeuble">En plus de 5 ans d’expérience j’ai pu faire valoir mon savoir-faire technique. J’ai aussi acquis des connaissances importantes en management et j’ai pu implémenter des méthodologies et des techniques nouvelles de travail. J’aime notemment le travail bien fait, e travail collaboratif ainsi que le “Learn by doing” qui me permet de gagner en temps dans l’acquisition de nouvelles compétences et connaissances techniques sur n’importe quel sujet en relation avec mon travail. Me recruter dans une de vos équipes de travail ne vous sera que profitable car vous aurez avec vous non seulement quelqu’un qui connait son travail mais aussi quelqu’un qui sait se remettre en question pour mieux se mettre à jour.</string>
@@ -113,7 +114,7 @@
     <string name="abonnes_gallery">Gallerie ouverte aux abonnés</string>
     <string name="jaime_gallery">Gallerie ouverte à ceux qui aiment la publication</string>
     <string name="annuler">Annuler</string>
-    <string name="noter">Noter</string>
+    <string name="noter">Envoyer votre note</string>
     <string name="no_note">Vous n\'avez mis aucune note</string>
     <string name="informations_publication">Informations publication</string>
     <string name="n_photos">Il y\'a %s dans la gallérie</string>
@@ -133,4 +134,15 @@
     <string name="photos_visibility">Visibilité de la gallerie</string>
     <string name="publish_at">Publié le %s</string>
     <string name="publish_at_by">Publié le %s - Vue par %s personnes</string>
+    <string name="ville">Ville</string>
+    <string name="ville_error">Erreur lors de la saisie de la ville</string>
+    <string name="no_raison">Vous n\'avez mis aucune raison</string>
+    <string name="signaler_post">Signaler cette publication</string>
+    <string name="raison_signalement">Raison du signalement</string>
+    <string name="bloquer_utilisateur">Bloquer aussi l\'utilisateur</string>
+    <string name="choose_expert">Choisissez une option</string>
+    <string name="creer_post">Créer cette publication</string>
+    <string name="iam_proprietaire">Je suis le propriétaire</string>
+    <string name="iam_not_proprietaire">Je ne suis pas le propriétaire</string>
+    <string name="pas_de_note">Pas de note disponible</string>
 </resources>

@@ -64,7 +64,7 @@ public class GalleryActivity extends AppCompatActivity implements View.OnClickLi
             for (DataSnapshot ds : snapshot.getChildren()) {
                 Image image = ds.getValue(Image.class);
                 imageList.add(image);
-                AdapterGallerie adapterGallerie = new AdapterGallerie(GalleryActivity.this, imageList);
+                AdapterGallerie adapterGallerie = new AdapterGallerie(getApplicationContext(), imageList);
                 rvGallery.setAdapter(adapterGallerie);
                 adapterGallerie.setListener(new Alistener() {
                     @Override
